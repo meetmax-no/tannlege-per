@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
-import { Phone, Mail, MapPin, Send } from 'lucide-react';
+import { Phone, Mail, MapPin, Send, CheckCircle } from 'lucide-react';
 import { clinicInfo } from '../data/mockData';
 import { Card, CardContent } from './ui/card';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { Button } from './ui/button';
-import { useToast } from '../hooks/use-toast';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from './ui/dialog';
 
 export const Contact = () => {
-  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -16,6 +21,7 @@ export const Contact = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -30,13 +36,14 @@ export const Contact = () => {
 
     // Mock API call - will be replaced with real backend
     setTimeout(() => {
-      toast({
-        title: "Takk for din henvendelse!",
-        description: "Vi tar kontakt med deg så snart som mulig.",
-      });
-      setFormData({ name: '', email: '', phone: '', message: '' });
       setIsSubmitting(false);
+      setShowSuccessModal(true);
+      setFormData({ name: '', email: '', phone: '', message: '' });
     }, 1000);
+  };
+
+  const closeModal = () => {
+    setShowSuccessModal(false);
   };
 
   return (
@@ -210,6 +217,31 @@ export const Contact = () => {
           </div>
         </div>
       </div>
+
+      {/* Success Modal */}
+      <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader className="text-center">
+            <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
+              <CheckCircle className="h-12 w-12 text-green-600" />
+            </div>
+            <DialogTitle className="text-2xl font-bold text-gray-900">
+              Takk for din henvendelse!
+            </DialogTitle>
+            <DialogDescription className="text-base text-gray-600 mt-3">
+              Vi har mottatt meldingen din og vil kontakte deg så snart som mulig.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-6">
+            <Button
+              onClick={closeModal}
+              className="w-full bg-amber-600 hover:bg-amber-700 text-white text-lg py-6"
+            >
+              OK
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
