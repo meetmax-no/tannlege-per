@@ -25,7 +25,11 @@ export const Services = () => {
     fetch('/data/tjenester.json')
       .then(response => response.json())
       .then(data => {
-        setServices(data.tjenester);
+        // Sorter tjenester alfabetisk etter tittel
+        const sortedServices = data.tjenester.sort((a, b) => 
+          a.tittel.localeCompare(b.tittel, 'nb-NO')
+        );
+        setServices(sortedServices);
         setLoading(false);
       })
       .catch(error => {
