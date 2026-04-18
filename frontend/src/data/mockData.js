@@ -67,17 +67,26 @@ export const teamMembers = [
     role: "Tannlege",
     education: "Universitetet i Oslo, 1991",
     specialization: "Fast og løs protetikk",
-    description: "Med over 30 års erfaring har Per spesialisert seg på protetikk og komplekse tannrestaureringar.",
-    image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400"
+    description: "Utdannet ved Universitetet i Oslo 1991. Jobber spesielt mye med fast og løs protetikk; kroner, broer og proteser.",
+    image: "http://www.tannlegemaareid.no/wp-content/uploads/2015/09/Capture0034-20150625.jpg"
   },
   {
     id: 2,
     name: "Zena Alani",
     role: "Tannlege",
-    education: "Autorisert tannlege",
+    education: "Bagdad og Bergen",
     specialization: "Allmenn tannbehandling",
-    description: "Zena har bred erfaring innen allmenn tannbehandling og er spesielt opptatt av forebyggende behandling.",
-    image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400"
+    description: "Norsk autorisasjon 2011, medlem Norsk tannlegeforening og følger NTF systematiske etterutdanning.",
+    image: "http://www.tannlegemaareid.no/wp-content/uploads/2019/03/F0AF5292-5CA4-4A30-8062-BABDFD3E39D0_web.jpg"
+  },
+  {
+    id: 3,
+    name: "Suzana Bou Ezzeddine",
+    role: "Tannhelsesekretær",
+    education: "Tannhelsesekretær",
+    specialization: "Resepsjon og timebestilling",
+    description: "Suzana tar imot pasienter og sørger for at alt går knirkefritt på klinikken.",
+    image: "https://www.tannlegemaareid.no/wp-content/uploads/2024/08/Suzana.jpg"
   }
 ];
 

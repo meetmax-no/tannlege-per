@@ -16,21 +16,21 @@ export const Team = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
           {teamMembers.map((member) => (
             <Card
               key={member.id}
               className="overflow-hidden border-2 border-amber-100 hover:border-amber-300 transition-all duration-300 hover:shadow-xl"
             >
               <div className="md:flex">
-                <div className="md:w-1/3">
+                <div className="md:w-2/5">
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-full h-64 md:h-full object-cover"
+                    className="w-full h-80 object-cover"
                   />
                 </div>
-                <CardContent className="md:w-2/3 p-8">
+                <CardContent className="md:w-3/5 p-8">
                   <h3 className="text-2xl font-bold text-amber-900 mb-1">
                     {member.name}
                   </h3>
