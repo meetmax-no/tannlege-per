@@ -228,7 +228,7 @@ export const Contact = () => {
 
       {/* Success Modal */}
       <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
-        <DialogContent className="sm:max-w-lg border-2 border-amber-200 bg-gradient-to-br from-white via-amber-50/30 to-white">
+        <DialogContent className="sm:max-w-lg border-2 border-amber-200 bg-white">
           <DialogHeader className="text-center">
             {/* Animated Success Icon */}
             <div className="mx-auto mb-6 relative">
