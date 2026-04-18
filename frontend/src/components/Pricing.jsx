@@ -78,6 +78,35 @@ export const Pricing = () => {
           </Accordion>
         </Card>
 
+        {/* Student Offer Highlight */}
+        <div className="mt-8 bg-gradient-to-br from-blue-50 to-blue-100/50 border-3 border-blue-400 rounded-2xl p-8 shadow-xl">
+          <div className="text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-full mb-4">
+              <span className="text-3xl">🎓</span>
+            </div>
+            <h3 className="text-3xl font-bold text-blue-900 mb-4">
+              Studenttilbud
+            </h3>
+            <div className="max-w-2xl mx-auto space-y-4">
+              <div className="bg-white rounded-xl p-6 shadow-md">
+                <p className="text-gray-700 text-lg mb-2">
+                  <strong className="text-blue-800">Undersøkelse/rtg og puss/rens</strong>
+                </p>
+                <p className="text-4xl font-bold text-blue-900">950,-</p>
+              </div>
+              <div className="bg-white rounded-xl p-6 shadow-md">
+                <p className="text-gray-700 text-lg mb-2">
+                  <strong className="text-blue-800">Rabatt på øvrig behandling</strong>
+                </p>
+                <p className="text-4xl font-bold text-blue-900">15%</p>
+              </div>
+            </div>
+            <p className="text-gray-600 mt-6 italic">
+              Gyldig studentbevis må fremvises ved timebestilling
+            </p>
+          </div>
+        </div>
+
         <div className="mt-8 text-center">
           <p className="text-gray-600">
             Prisene er veiledende. Kontakt oss for et nøyaktig pristilbud basert på dine behov.

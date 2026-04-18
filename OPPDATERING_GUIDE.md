@@ -14,17 +14,35 @@ Filene ligger i `/app/frontend/public/data/`:
 
 ```json
 {
+  "studenttilbud": {
+    "aktiv": true,
+    "pakke": "Undersøkelse/rtg og puss/rens: 950,-",
+    "rabatt_ovrig": "15% rabatt på øvrig behandling",
+    "merknad": "Gyldig studentbevis må fremvises"
+  },
   "prisliste": [
     {
       "kategori": "Undersøkelse og kontroll",
       "tjenester": [
-        { "tjeneste": "Ordinær kontroll", "pris": "Fra kr 950,-" },
-        { "tjeneste": "Akutt konsultasjon", "pris": "Fra kr 1.200,-" }
+        { "tjeneste": "Ordinær kontroll", "pris": "Fra kr 950,-" }
       ]
     }
   ]
 }
 ```
+
+### Oppdatere studenttilbud:
+Endre feltene under `"studenttilbud"`:
+```json
+"studenttilbud": {
+  "aktiv": true,
+  "pakke": "Undersøkelse/rtg og puss/rens: 950,-",
+  "rabatt_ovrig": "15% rabatt på øvrig behandling",
+  "merknad": "Gyldig studentbevis må fremvises"
+}
+```
+
+Sett `"aktiv": false` for å skjule studenttilbudet.
 
 ### Legge til ny kategori:
 ```json

@@ -1,4 +1,10 @@
 {
+  "studenttilbud": {
+    "aktiv": true,
+    "pakke": "Undersøkelse/rtg og puss/rens: 950,-",
+    "rabatt_ovrig": "15% rabatt på øvrig behandling",
+    "merknad": "Gyldig studentbevis må fremvises"
+  },
   "prisliste": [
     {
       "kategori": "Undersøkelse og kontroll",

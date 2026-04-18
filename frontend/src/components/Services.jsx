@@ -75,6 +75,37 @@ export const Services = () => {
             </div>
           </div>
         </div>
+
+        {/* Student Offer */}
+        <div className="mt-8 bg-gradient-to-br from-blue-50 to-blue-100/50 border-2 border-blue-300 rounded-2xl p-8 shadow-lg">
+          <div className="flex items-start gap-4">
+            <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+              <GraduationCap className="text-white" size={24} />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-2xl font-bold text-blue-900 mb-3">
+                Studenttilbud 🎓
+              </h3>
+              <div className="space-y-2">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-lg font-semibold text-blue-800">•</span>
+                  <p className="text-gray-700 font-medium">
+                    <strong>Undersøkelse/rtg og puss/rens:</strong> kun 950,-
+                  </p>
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-lg font-semibold text-blue-800">•</span>
+                  <p className="text-gray-700 font-medium">
+                    <strong>15% rabatt</strong> på øvrig behandling
+                  </p>
+                </div>
+              </div>
+              <p className="text-sm text-gray-600 mt-4 italic">
+                Gyldig studentbevis må fremvises ved timebestilling
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
