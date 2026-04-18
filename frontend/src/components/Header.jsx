@@ -25,7 +25,7 @@ export const Header = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white/95 backdrop-blur-md shadow-md' : 'bg-transparent'
+        isScrolled || isMobileMenuOpen ? 'bg-white/95 backdrop-blur-md shadow-md' : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -33,7 +33,7 @@ export const Header = () => {
           <div className="flex-shrink-0">
             <h1
               className={`text-2xl font-bold transition-colors duration-300 ${
-                isScrolled ? 'text-amber-900' : 'text-white'
+                isScrolled || isMobileMenuOpen ? 'text-amber-900' : 'text-white'
               }`}
             >
               Tannlegene Måreid
@@ -44,7 +44,7 @@ export const Header = () => {
             <button
               onClick={() => scrollToSection('hero')}
               className={`font-medium transition-colors hover:text-amber-600 ${
-                isScrolled ? 'text-gray-700' : 'text-white'
+                isScrolled || isMobileMenuOpen ? 'text-gray-700' : 'text-white'
               }`}
             >
               Hjem
@@ -52,7 +52,7 @@ export const Header = () => {
             <button
               onClick={() => scrollToSection('tjenester')}
               className={`font-medium transition-colors hover:text-amber-600 ${
-                isScrolled ? 'text-gray-700' : 'text-white'
+                isScrolled || isMobileMenuOpen ? 'text-gray-700' : 'text-white'
               }`}
             >
               Tjenester
@@ -60,7 +60,7 @@ export const Header = () => {
             <button
               onClick={() => scrollToSection('team')}
               className={`font-medium transition-colors hover:text-amber-600 ${
-                isScrolled ? 'text-gray-700' : 'text-white'
+                isScrolled || isMobileMenuOpen ? 'text-gray-700' : 'text-white'
               }`}
             >
               Team
@@ -68,7 +68,7 @@ export const Header = () => {
             <button
               onClick={() => scrollToSection('priser')}
               className={`font-medium transition-colors hover:text-amber-600 ${
-                isScrolled ? 'text-gray-700' : 'text-white'
+                isScrolled || isMobileMenuOpen ? 'text-gray-700' : 'text-white'
               }`}
             >
               Priser
@@ -76,7 +76,7 @@ export const Header = () => {
             <button
               onClick={() => scrollToSection('apningstider')}
               className={`font-medium transition-colors hover:text-amber-600 ${
-                isScrolled ? 'text-gray-700' : 'text-white'
+                isScrolled || isMobileMenuOpen ? 'text-gray-700' : 'text-white'
               }`}
             >
               Åpningstider
@@ -92,7 +92,7 @@ export const Header = () => {
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className={`md:hidden p-2 rounded-lg transition-colors ${
-              isScrolled ? 'text-gray-700' : 'text-white'
+              isScrolled || isMobileMenuOpen ? 'text-gray-700' : 'text-white'
             }`}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -100,7 +100,7 @@ export const Header = () => {
         </div>
 
         {isMobileMenuOpen && (
-          <nav className="md:hidden pb-4 space-y-2">
+          <nav className="md:hidden pb-4 space-y-2 bg-white rounded-b-lg shadow-lg">
             <button
               onClick={() => scrollToSection('hero')}
               className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-amber-50 rounded-lg transition-colors"
