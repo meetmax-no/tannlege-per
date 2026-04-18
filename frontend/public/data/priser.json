@@ -34,6 +34,12 @@
         { "tjeneste": "Krone (keramikk)", "pris": "Fra kr 9.500,-" },
         { "tjeneste": "Bro (per ledd)", "pris": "Fra kr 8.500,-" }
       ]
+    },
+    {
+      "kategori": "Bleking",
+      "tjenester": [
+        { "tjeneste": "Bleking (begge kjever) inkl skinne", "pris": "kr 3.600,-" }
+      ]
     }
   ]
 }
