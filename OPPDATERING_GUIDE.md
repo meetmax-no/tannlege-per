@@ -7,6 +7,7 @@ Denne nettsiden leser priser og åpningstider fra JSON-filer, slik at du enkelt 
 Filene ligger i `/app/frontend/public/data/`:
 - **Priser:** `/app/frontend/public/data/priser.json`
 - **Åpningstider:** `/app/frontend/public/data/apningstider.json`
+- **Tjenester:** `/app/frontend/public/data/tjenester.json`
 
 ## 💰 Oppdatere Priser
 
@@ -60,6 +61,61 @@ Bare legg til en ny linje under `"tjenester"`:
 ```json
 { "tjeneste": "Ny tjeneste", "pris": "Fra kr 3.000,-" }
 ```
+
+## 🏥 Oppdatere Tjenester
+
+Åpne filen `tjenester.json` og rediger innholdet:
+
+```json
+{
+  "tjenester": [
+    {
+      "id": 1,
+      "tittel": "Allmenn tannbehandling",
+      "kort_beskrivelse": "Kort beskrivelse som vises på kortet",
+      "detaljert_beskrivelse": "Lengre beskrivelse som vises i popup-vinduet når man klikker",
+      "ikon": "Stethoscope",
+      "inkluderer": [
+        "Punkt 1 som behandlingen inkluderer",
+        "Punkt 2",
+        "Punkt 3"
+      ]
+    }
+  ]
+}
+```
+
+### Tilgjengelige ikoner:
+- `Stethoscope` - Stetoskop
+- `Smile` - Smil
+- `HeartPulse` - Hjerte med puls
+- `Sparkles` - Stjerner/glitter
+- `AlertCircle` - Varseltrekant
+- `GraduationCap` - Student-lue
+- `Activity` - Aktivitet/puls
+- `ArrowRightLeft` - Piler
+- `Baby` - Baby
+
+### Legge til ny tjeneste:
+Legg til et nytt objekt i `"tjenester"` listen. Husk å øke `"id"` nummeret:
+```json
+{
+  "id": 9,
+  "tittel": "Ny tjeneste",
+  "kort_beskrivelse": "Kort tekst her",
+  "detaljert_beskrivelse": "Lang tekst her",
+  "ikon": "Smile",
+  "inkluderer": ["Punkt 1", "Punkt 2"]
+}
+```
+
+### Anbefalt antall tjenester:
+- **Minimum:** 4 tjenester
+- **Optimalt:** 6-8 tjenester
+- **Maksimum:** 12 tjenester (for å holde siden ryddig)
+
+**Tips:** Kortene tilpasser seg automatisk antallet. Med 8 kort får du 4 kolonner på store skjermer.
+
 
 ## 🕐 Oppdatere Åpningstider
 

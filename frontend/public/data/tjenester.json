@@ -1,0 +1,115 @@
+{
+  "tjenester": [
+    {
+      "id": 1,
+      "tittel": "Allmenn tannbehandling",
+      "kort_beskrivelse": "Regelmessige kontroller, tannrens og forebyggende behandling for hele familien.",
+      "detaljert_beskrivelse": "Vår allmenne tannbehandling inkluderer regelmessige kontroller hvor vi undersøker tenner, tannkjøtt og munnhule. Vi tilbyr profesjonell tannrens, fluorbehandling og råd om daglig munnhygiene. Forebyggende behandling er viktig for å opprettholde god tannhelse og unngå større problemer senere.",
+      "ikon": "Stethoscope",
+      "inkluderer": [
+        "Tannundersøkelse",
+        "Røntgen ved behov",
+        "Tannrens og puss",
+        "Fluorbehandling",
+        "Råd om munnhygiene"
+      ]
+    },
+    {
+      "id": 2,
+      "tittel": "Fast og løs protetikk",
+      "kort_beskrivelse": "Kroner, broer og proteser tilpasset dine behov med høy kvalitet og presisjon.",
+      "detaljert_beskrivelse": "Vi har lang erfaring med fast og løs protetikk. Dette inkluderer kroner for å styrke skadede tenner, broer for å erstatte manglende tenner, og helproteser eller delproteser ved større tannmangel. Alle løsninger tilpasses individuelt for best mulig funksjon og estetikk.",
+      "ikon": "Smile",
+      "inkluderer": [
+        "Kroner i keramikk eller metall",
+        "Broer for erstatning av tenner",
+        "Helproteser",
+        "Delproteser",
+        "Reparasjon av proteser"
+      ]
+    },
+    {
+      "id": 3,
+      "tittel": "Tannkjøttsbehandling",
+      "kort_beskrivelse": "Spesialisert behandling av tannkjøttsykdommer med mulighet for Helfo-refusjon.",
+      "detaljert_beskrivelse": "Tannkjøttsykdommer som gingivitt og periodontitt er vanlige, men kan behandles effektivt. Vi tilbyr grundig tannkjøttsbehandling inkludert tannstensrens under tannkjøttet, instruksjon i riktig munnhygiene, og oppfølging. Mange har krav på Helfo-refusjon for denne behandlingen.",
+      "ikon": "HeartPulse",
+      "inkluderer": [
+        "Undersøkelse av tannkjøtt",
+        "Tannstensrens",
+        "Dyprengjøring ved periodontal sykdom",
+        "Oppfølgingsbehandling",
+        "Helfo-refusjon (ved godkjente tilstander)"
+      ]
+    },
+    {
+      "id": 4,
+      "tittel": "Estetisk tannbehandling",
+      "kort_beskrivelse": "Tannbleking, fasetter og andre kosmetiske løsninger for et vakkert smil.",
+      "detaljert_beskrivelse": "Vi tilbyr moderne estetisk tannbehandling for deg som ønsker å forbedre smilet ditt. Dette inkluderer profesjonell tannbleking, fasetter i porselen eller kompositt, samt kosmetiske fyllinger som matcher tennenes naturlige farge.",
+      "ikon": "Sparkles",
+      "inkluderer": [
+        "Profesjonell tannbleking",
+        "Fasetter (veneers)",
+        "Kosmetiske fyllinger",
+        "Omforming av tenner",
+        "Fjerning av misfarging"
+      ]
+    },
+    {
+      "id": 5,
+      "tittel": "Akuttbehandling",
+      "kort_beskrivelse": "Rask hjelp ved tannverk, brudd eller andre akutte problemer.",
+      "detaljert_beskrivelse": "Vi tilbyr akuttbehandling for pasienter med plutselig tannverk, brudd på tenner, eller andre akutte tannproblemer. Kontakt oss på telefon så finner vi en løsning raskt. Ved akutte situasjoner prioriterer vi å få deg inn så snart som mulig.",
+      "ikon": "AlertCircle",
+      "inkluderer": [
+        "Akutt tannverk",
+        "Brudd på tenner",
+        "Tapt fylling eller krone",
+        "Infeksjoner",
+        "Samme dag behandling ved behov"
+      ]
+    },
+    {
+      "id": 6,
+      "tittel": "Rotfylling (endodonti)",
+      "kort_beskrivelse": "Behandling av tannens nervekanaler for å redde tenner med betennelse.",
+      "detaljert_beskrivelse": "Når en tann er skadet eller infisert dypt ned i tannens nerve, kan rotfylling redde tannen. Vi fjerner det infiserte vevet, renser og desinfiserer kanalene, og fyller dem med et biokompatibelt materiale. Dette forhindrer videre infeksjon og lar deg beholde tannen.",
+      "ikon": "Activity",
+      "inkluderer": [
+        "Undersøkelse med røntgen",
+        "Fjerning av infisert nervevev",
+        "Rensing og desinfeksjon av kanaler",
+        "Fylling av rotkanaler",
+        "Oppfølging og kontroll"
+      ]
+    },
+    {
+      "id": 7,
+      "tittel": "Tannregulering",
+      "kort_beskrivelse": "Ortodontisk behandling for rettere tenner og bedre bittfunksjon.",
+      "detaljert_beskrivelse": "Vi kan henvise til spesialister innen ortodonti for omfattende tannregulering. For enklere tilfeller kan vi tilby behandling med skinner eller andre løsninger. Kontakt oss for en vurdering av dine behov.",
+      "ikon": "ArrowRightLeft",
+      "inkluderer": [
+        "Vurdering av reguleringsbehov",
+        "Henvisning til spesialist",
+        "Oppfølging under behandling",
+        "Retainere etter behandling"
+      ]
+    },
+    {
+      "id": 8,
+      "tittel": "Barnetannpleie",
+      "kort_beskrivelse": "Trygg og hyggelig tannbehandling tilpasset barn og ungdom.",
+      "detaljert_beskrivelse": "Vi er vant til å behandle barn og unge pasienter. Vi legger vekt på å skape en trygg og positiv opplevelse, slik at barnet får et godt forhold til tannlegen. Vi gir råd om kosthold, tannpuss og forebyggende tiltak tilpasset barnets alder.",
+      "ikon": "Baby",
+      "inkluderer": [
+        "Tannundersøkelse for barn",
+        "Forsiktig tannrens",
+        "Fluorbehandling",
+        "Fyllinger ved behov",
+        "Forebyggende råd til foreldre"
+      ]
+    }
+  ]
+}
