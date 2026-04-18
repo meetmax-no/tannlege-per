@@ -8,6 +8,7 @@ import { Pricing } from "./components/Pricing";
 import { OpeningHours } from "./components/OpeningHours";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
+import { ScrollToTop } from "./components/ScrollToTop";
 import { Toaster } from "./components/ui/sonner";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
       <OpeningHours />
       <Contact />
       <Footer />
+      <ScrollToTop />
       <Toaster />
     </div>
   );
