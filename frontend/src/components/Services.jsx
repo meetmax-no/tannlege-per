@@ -118,8 +118,8 @@ export const Services = () => {
                   </h4>
                   <ul className="space-y-2">
                     {selectedService.inkluderer.map((item, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <span className="text-amber-600 font-bold mt-1">•</span>
+                      <li key={index} className="flex items-center gap-2">
+                        <span className="text-amber-600 font-bold flex-shrink-0">•</span>
                         <span className="text-gray-700">{item}</span>
                       </li>
                     ))}
