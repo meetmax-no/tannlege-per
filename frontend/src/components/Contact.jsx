@@ -38,12 +38,20 @@ export const Contact = () => {
     setTimeout(() => {
       setIsSubmitting(false);
       setShowSuccessModal(true);
-      setFormData({ name: '', email: '', phone: '', message: '' });
+      // Vi tømmer IKKE skjemaet her, så vi kan bruke navnet i modalen
     }, 1000);
   };
 
   const closeModal = () => {
     setShowSuccessModal(false);
+    // Tøm skjemaet ETTER at modalen lukkes
+    setFormData({ name: '', email: '', phone: '', message: '' });
+  };
+
+  // Hent kun fornavnet fra fullt navn
+  const getFirstName = () => {
+    if (!formData.name) return '';
+    return formData.name.split(' ')[0];
   };
 
   return (
@@ -220,24 +228,45 @@ export const Contact = () => {
 
       {/* Success Modal */}
       <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-lg border-2 border-amber-200 bg-gradient-to-br from-white via-amber-50/30 to-white">
           <DialogHeader className="text-center">
-            <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
-              <CheckCircle className="h-12 w-12 text-green-600" />
+            {/* Animated Success Icon */}
+            <div className="mx-auto mb-6 relative">
+              <div className="absolute inset-0 bg-green-100 rounded-full blur-xl opacity-60 animate-pulse"></div>
+              <div className="relative flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-green-400 to-green-600 shadow-lg">
+                <CheckCircle className="h-14 w-14 text-white animate-[scale-in_0.5s_ease-out]" strokeWidth={2.5} />
+              </div>
             </div>
-            <DialogTitle className="text-2xl font-bold text-gray-900">
-              Takk for din henvendelse!
+
+            {/* Personalized Title */}
+            <DialogTitle className="text-3xl font-bold text-amber-900 mb-3">
+              {getFirstName() ? `Takk ${getFirstName()}!` : 'Takk for din henvendelse!'}
             </DialogTitle>
-            <DialogDescription className="text-base text-gray-600 mt-3">
-              Vi har mottatt meldingen din og vil kontakte deg så snart som mulig.
+
+            {/* Description */}
+            <DialogDescription className="text-lg text-gray-700 leading-relaxed px-4">
+              Vi har mottatt meldingen din og setter stor pris på at du tok kontakt. 
+              En av våre tannleger vil kontakte deg innen <strong className="text-amber-800">24 timer</strong>.
             </DialogDescription>
+
+            {/* Decorative Element */}
+            <div className="mt-6 pt-6 border-t border-amber-100">
+              <p className="text-sm text-gray-600 italic">
+                📞 Trenger du hjelp med en gang? Ring oss på{' '}
+                <a href="tel:22355700" className="text-amber-700 font-semibold hover:text-amber-800">
+                  22 35 57 00
+                </a>
+              </p>
+            </div>
           </DialogHeader>
+
+          {/* Action Button */}
           <div className="mt-6">
             <Button
               onClick={closeModal}
-              className="w-full bg-amber-600 hover:bg-amber-700 text-white text-lg py-6"
+              className="w-full bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white text-lg py-6 shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]"
             >
-              OK
+              Perfekt!
             </Button>
           </div>
         </DialogContent>
