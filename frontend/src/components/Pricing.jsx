@@ -1,5 +1,4 @@
-import React from 'react';
-import { priceList } from '../data/mockData';
+import React, { useState, useEffect } from 'react';
 import {
   Accordion,
   AccordionContent,
@@ -9,6 +8,39 @@ import {
 import { Card } from './ui/card';
 
 export const Pricing = () => {
+  const [priceList, setPriceList] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/data/priser.json')
+      .then(response => response.json())
+      .then(data => {
+        const formattedData = data.prisliste.map(category => ({
+          category: category.kategori,
+          items: category.tjenester.map(item => ({
+            service: item.tjeneste,
+            price: item.pris
+          }))
+        }));
+        setPriceList(formattedData);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Feil ved lasting av priser:', error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <section id="priser" className="py-24 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-gray-600">Laster priser...</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="priser" className="py-24 bg-white">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">

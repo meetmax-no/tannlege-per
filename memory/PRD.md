@@ -63,29 +63,31 @@ Bygge en moderne og minimalistisk one-page nettside for tannlege Per Eivind Mår
 - [x] Header med sticky navigation og smooth scroll
 - [x] Hero section med varm gradient overlay og CTA-knapper
 - [x] Services section med 6 tjenestekort og Helfo-informasjon
-- [x] Team section med 2 tannleger og 3 pasientomtaler
-- [x] Pricing section med accordion for priskategorier
-- [x] Opening Hours section med ukeoversikt
-- [x] Contact section med kontaktskjema (frontend-only), kontaktinfo og Google Maps
+- [x] Team section med 3 ansatte (Per, Zena, Suzana) og ekte bilder fra nettsiden
+- [x] Pricing section med accordion - leser fra JSON-fil (/public/data/priser.json)
+- [x] Opening Hours section - leser fra JSON-fil (/public/data/apningstider.json)
+- [x] Contact section med kontaktskjema (mock implementation), kontaktinfo og Google Maps
 - [x] Footer med navigasjon og kontaktinformasjon
 - [x] Toast notifications (Sonner) integrert
 - [x] Responsive design for mobil, tablet og desktop
 - [x] Inter font integrert
 - [x] Warm color scheme (amber/beige)
 
-**Status:** Frontend ferdig med mock data. Klar for visning.
+### ✅ Fase 2: Dynamisk innhold via JSON
+- [x] Priser og åpningstider flyttes til JSON-filer i /public/data/
+- [x] Komponenter oppdatert til å lese fra JSON-filer
+- [x] Opprettet OPPDATERING_GUIDE.md med instruksjoner for å endre priser/åpningstider
+
+**Status:** Frontend ferdig med dynamisk innhold. Ingen backend nødvendig. Klar for deployment.
 
 ## Prioritized Backlog
 
-### P0 - Neste Sprint
-- [ ] Backend implementasjon
-  - [ ] MongoDB schema for kontaktskjema
-  - [ ] POST /api/contact endpoint
-  - [ ] Validering og error handling
-  - [ ] Integrere backend med frontend kontaktskjema
+### P0 - Deployment
+- [ ] Deploy til produksjon via Emergent Native Deployment
+- [ ] Sette opp custom domain (valgfritt)
 
 ### P1 - Future Enhancements
-- [ ] E-post notifikasjon ved nye kontaktforespørsler
+- [ ] Implementere ekte e-post funksjonalitet (SendGrid) for kontaktskjema
 - [ ] Admin panel for å se kontaktforespørsler
 - [ ] Timebestillingssystem
 - [ ] Integrere med eksisterende booking system

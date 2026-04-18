@@ -1,9 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Clock } from 'lucide-react';
-import { openingHours } from '../data/mockData';
 import { Card, CardContent } from './ui/card';
 
 export const OpeningHours = () => {
+  const [openingHours, setOpeningHours] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/data/apningstider.json')
+      .then(response => response.json())
+      .then(data => {
+        const formattedData = data.apningstider.map(day => ({
+          day: day.dag,
+          hours: day.tid
+        }));
+        setOpeningHours(formattedData);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Feil ved lasting av åpningstider:', error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <section id="apningstider" className="py-24 bg-gradient-to-b from-white to-amber-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-gray-600">Laster åpningstider...</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="apningstider" className="py-24 bg-gradient-to-b from-white to-amber-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
