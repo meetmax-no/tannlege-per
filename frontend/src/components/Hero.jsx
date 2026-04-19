@@ -19,7 +19,7 @@ export const Hero = () => {
           className="w-full h-full object-cover object-center md:object-left"
         />
         {/* Mobile gradient - lighter and from bottom */}
-        <div className="absolute inset-0 bg-gradient-to-t from-amber-900/85 via-amber-800/60 to-amber-900/40 md:hidden"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-amber-900/65 via-amber-800/45 to-amber-900/20 md:hidden"></div>
         {/* Desktop gradient - original */}
         <div className="absolute inset-0 bg-gradient-to-r from-amber-900/90 via-amber-800/80 to-transparent hidden md:block"></div>
       </div>
