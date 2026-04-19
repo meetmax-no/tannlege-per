@@ -16,9 +16,12 @@ export const Hero = () => {
         <img
           src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1920&q=80"
           alt="Modern dental clinic"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-center md:object-left"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-amber-900/90 via-amber-800/80 to-transparent"></div>
+        {/* Mobile gradient - lighter and from bottom */}
+        <div className="absolute inset-0 bg-gradient-to-t from-amber-900/85 via-amber-800/60 to-amber-900/40 md:hidden"></div>
+        {/* Desktop gradient - original */}
+        <div className="absolute inset-0 bg-gradient-to-r from-amber-900/90 via-amber-800/80 to-transparent hidden md:block"></div>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
