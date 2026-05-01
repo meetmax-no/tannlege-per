@@ -1,0 +1,11 @@
+{
+  "apningstider": [
+    { "dag": "Mandag", "tid": "08:00 - 16:00" },
+    { "dag": "Tirsdag", "tid": "08:00 - 16:00" },
+    { "dag": "Onsdag", "tid": "08:00 - 16:00" },
+    { "dag": "Torsdag", "tid": "08:00 - 16:00" },
+    { "dag": "Fredag", "tid": "08:00 - 15:00" },
+    { "dag": "Lørdag", "tid": "Stengt" },
+    { "dag": "Søndag", "tid": "Stengt" }
+  ]
+}
