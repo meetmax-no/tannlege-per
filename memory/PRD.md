@@ -4,126 +4,178 @@
 Bygge en moderne og minimalistisk one-page nettside for tannlege Per Eivind Måreid.
 
 **Referanse:** https://www.tannlegemaareid.no/
+**Repo:** github.com/meetmax-no/tannlege-per (main branch)
+**Produksjon:** https://per-tannlege.vercel.app
 
-## User Persona
-- **Primary:** Potensielle pasienter i Oslo som søker tannlegetjenester
-- **Secondary:** Eksisterende pasienter som trenger informasjon om tjenester, åpningstider og kontakt
+## User Personas
+- **Primær (hovedsiden):** Voksne pasienter i Oslo
+- **Sekundær (studentsiden):** Studenter — Alexander Kiellands plass, OsloMet/UiO/BI i nærheten
+- **Tertiær:** Akutt-pasienter, eksisterende pasienter
 
-## Core Requirements
-
-### Design Stil
-- Moderne og minimalistisk design
-- Varm og inviterende fargepalett (amber/beige toner)
-- Responsive design
-- Smooth scroll navigation
-- Moderne typografi (Inter font)
-
-### Seksjoner
-1. **Hero Section** - Hovedbanner med CTA-knapper
-2. **Tjenester** - 6 tjenestekort + Helfo-informasjon
-3. **Team** - Presentasjon av tannlegene + pasientomtaler
-4. **Priser** - Accordion med prisliste
-5. **Åpningstider** - Oversikt over ukens åpningstider
-6. **Kontakt** - Kontaktskjema + kontaktinformasjon + kart
-
-### Kontaktfunksjonalitet
-- Kontaktskjema med backend lagring
-- Validering av skjemafelt
-- Toast notifikasjoner for tilbakemelding
+---
 
 ## Architecture
 
 ### Frontend
-- **Framework:** React 19
-- **Styling:** Tailwind CSS + Shadcn UI components
-- **Components:**
-  - Header (sticky navigation)
-  - Hero
-  - Services
-  - Team (inkl. testimonials)
-  - Pricing (accordion)
-  - OpeningHours
-  - Contact (form + map)
-  - Footer
-  - ThemeSwitcher (preview-modus knapp)
+- **Framework:** React 19 + React Router v7
+- **Styling:** Tailwind CSS + Shadcn UI + CSS-variabler
+- **Sider:**
+  - `/` — Hovedsiden (HomePage)
+  - `/student` — Student-landingsside (StudentLanding)
+  - `/student/plakat` — QR-plakat for utskrift (StudentPoster)
+- **Statisk preview:**
+  - `/farger-preview.html` — Tuner for Hero-overlays
+  - `/student-stilvalg.html` — Stilbibliotek (4 student-varianter)
 
-### Backend (Planlagt)
-- **Framework:** FastAPI
-- **Database:** MongoDB
+### Backend (planlagt)
+- **Framework:** FastAPI + MongoDB Atlas (M0 Free tier)
 - **Endpoints:**
-  - POST /api/contact - Lagre kontaktskjema + sende e-post via SendGrid (kommer)
+  - POST /api/contact — Lagre + send e-post via SendGrid (kommer)
+  - GET /api/track — Logg sidevisninger m/UTM (valgfritt)
 
-### Theming System (NYTT — 14. mai 2026)
-- **Konfigfil:** `/frontend/public/data/default.json` med `colorScheme`-felt
-  - `0` = preview-modus (tema-knapp synlig i header)
-  - `1` = Brun / Amber (default)
-  - `2` = Lysblå / Sky
-  - `3` = Lysgrønn / Emerald
-- **Implementasjon:**
-  - CSS-variabler i `index.css` med tre `[data-color-scheme]`-paletter (channels)
-  - Tailwind `amber.*`-klasser bruker `rgb(var(--brand-X) / <alpha-value>)` så alle eksisterende klasser fortsetter å fungere
-  - `ThemeProvider` (`/src/context/ThemeContext.jsx`) henter JSON, leser localStorage, setter `data-color-scheme` på `<html>`, oppdaterer `theme-color` meta-tag
-  - `ThemeSwitcher` (`/src/components/ThemeSwitcher.jsx`) vises kun når `colorScheme === 0`. Plassert i header etter "Kontakt oss" (desktop) og nederst i mobil-meny
-  - localStorage-nøkkel: `tannlege-color-scheme`
+### Theming Systems (to uavhengige)
+
+#### Hovedside (3 temaer)
+- `default.json` → `colorScheme`: 0=preview, 1=brun, 2=lysblå, 3=lysgrønn
+- CSS-variabler `--brand-X` overstyrer Tailwind `amber.*` klasser
+- Hero-overlay egne variabler `--hero-gradient-desktop/mobile` per tema
+- ThemeProvider + ThemeSwitcher (dropdown med "Tilpass overlay"-lenke)
+
+#### Studentside (4 temaer)
+- `default.json` → `studentColorScheme`: 0=preview, 1=Bubblegum, 2=Voltage, 3=Honey, 4=Emerald
+- Egne `--st-*` CSS-variabler (uavhengig av hovedsidens palett)
+- StudentThemePicker (4 sirkler) i mini-header
+- Hver palett har egne bg/text/accent/card/deal-farger
+
+---
 
 ## What's Been Implemented
 
-### ✅ Fase 1: Frontend med Mock Data (Des 2025)
-- [x] mockData.js med all data
-- [x] Header med sticky navigation
-- [x] Hero med varm gradient
-- [x] Services med 6 tjenestekort
-- [x] Team med 3 ansatte
-- [x] Pricing med accordion (leser JSON)
-- [x] OpeningHours (leser JSON)
-- [x] Contact med skjema (mock), kontaktinfo, kart
-- [x] Footer
-- [x] Toast notifications, responsive, Inter font, warm color scheme
+### ✅ Fase 1: Frontend MVP (Des 2025)
+- mockData.js, alle hovedseksjoner, responsive design, Inter font
 
 ### ✅ Fase 2: Dynamisk innhold via JSON (Des 2025)
-- [x] Priser/åpningstider/tjenester i `/public/data/`
-- [x] OPPDATERING_GUIDE.md
+- `/public/data/`: priser.json, priser-student.json, tjenester.json, apningstider.json
 
-### ✅ Fase 3: Pull av repo & favicon (14. mai 2026)
-- [x] Klonet `github.com/meetmax-no/tannlege-per` til /app
-- [x] Installert avhengigheter, restartet services
-- [x] Erstattet favicon med ny favicon-pakke (svg + ico + png + apple-touch + manifest)
-- [x] Oppdatert `site.webmanifest` med "Tannlegene Måreid" + theme-color
+### ✅ Fase 3: Repo + Favicon (14. mai 2026)
+- Klonet repo til /app, dependencies installert
+- Ny favicon-pakke (svg + ico + png + apple-touch + manifest)
+- site.webmanifest oppdatert med klinikknavn + theme-color
 
-### ✅ Fase 4: Color Scheme Switcher (14. mai 2026)
-- [x] Opprettet `/public/data/default.json`
-- [x] Definert 3 paletter via CSS-variabler i `index.css`
-- [x] Tailwind config: `amber.*` peker mot CSS-variabler
-- [x] `ThemeProvider` (context + hook) som leser JSON + localStorage
-- [x] `ThemeSwitcher` (knapp + dropdown) i header (desktop + mobil)
-- [x] Dynamisk oppdatering av `<meta name="theme-color">`
-- [x] Verifisert at alle seksjoner (Hero, Services, Pricing, Contact, Footer) bytter farge korrekt
+### ✅ Fase 4: Color Scheme System hovedsiden (14. mai 2026)
+- 3 fargetemaer via CSS-variabler (brun/lysblå/lysgrønn)
+- `default.json` med `colorScheme`-felt
+- ThemeProvider + ThemeSwitcher (dropdown m/ swatches)
+- Tema-color meta-tag oppdateres dynamisk
+- localStorage husker valg i preview-modus
+- Tailwind `amber.*` overrides så ingen kodeendringer per palett
+
+### ✅ Fase 5: Hero-overlay tuner (14. mai 2026)
+- `/farger-preview.html` — interaktiv slider-tuner
+- Glidebrytere for from/via/to opacity + shade per farge
+- Live preview på ekte Hero-bilde
+- Kopier rgba → committet i index.css for alle 3:
+  - Brun: `rgba(180, 83, 9, 0.75 → 0.55 → 0.00)`
+  - Lysblå: `rgba(3, 105, 161, 0.80 → 0.50 → 0.00)`
+  - Lysgrønn: `rgba(4, 120, 87, 0.71 → 0.45 → 0.00)`
+- Mobil-overlays med proporsjonalt lettere verdier
+
+### ✅ Fase 6: Studentside (14. mai 2026)
+- `/student` route med React Router
+- Innhold styres av `priser-student.json` (kan oppdateres uten kode)
+- Seksjoner: Hero, Pris-kort, CTA, Slik gjør du, Venn-deal (25%), Akutt, Bestill-skjema, Praktisk, Footer
+- Sticky CTA på mobil
+- "Mer om studenttilbud →"-lenke fra hovedsidens Pricing-seksjon
+
+### ✅ Fase 7: 4 Bold Student-temaer (14. mai 2026)
+- Helt eget palett-system uavhengig av hovedsiden
+- **Bubblegum**: pink (#FF2E93) + lime (#C0FF00) + svart pris-kort
+- **Voltage**: elektrisk blå (#2563EB) + lime + navy pris-kort
+- **Honey**: amber + oransje, varmt monokromt
+- **Emerald**: klassisk grønn (samme palett som hovedsiden)
+- StudentThemePicker: 4 sirkler i mini-header (kun preview-modus)
+- Stilbibliotek `/student-stilvalg.html` for fremvisning/sammenligning
+
+### ✅ Fase 8: Venn-rabatt copy (14. mai 2026)
+- Tydelig insentiv-fokus: "15% alene. 25% med en venn."
+- "+10% bonus"-tag i seksjonen
+- Forklaring synliggjør gevinsten
+
+### ✅ Fase 9: QR-plakat (14. mai 2026)
+- `/student/plakat` route
+- Dynamisk QR-kode (qrserver.com API) m/ UTM-parametere
+- Print-CSS for A2 portrett (420 × 594 mm)
+- Tema-velger i toolbar (samme 4 som studentsiden)
+- "Skriv ut / Lagre som PDF"-knapp
+- QR peker til: `per-tannlege.vercel.app/student?utm_source=qr&utm_medium=poster&utm_campaign=studenttilbud-akp`
+
+### ✅ Fase 10: SEO + Sporing (14. mai 2026)
+- Open Graph + Twitter Card meta-tags i index.html
+- Dynamiske meta-tag overstyringer via `use-meta-tags`-hook
+- UTM-parametere fanges på student-siden → pre-fylles inn i form-melding
+- Hovedside-lenke: `?utm_source=hovedside&utm_medium=link&utm_campaign=studenttilbud-akp`
+- Vercel Analytics integrert (`@vercel/analytics/react` + `<Analytics />` i App.js)
+
+### ✅ Fase 11: Småplukk (14. mai 2026)
+- Team-bilder: `object-top` (fikset Suzana-klipping på mobil)
+- Hero-headline: redusert til `text-[10vw]` så "Studentbudsjett." og "Done." ikke klippes
+- Akutt-knapp: midtjustert på mobil (`mx-auto sm:mx-0`)
+- Form-bunn: stor klikkbar `<Phone /> 22 35 57 00` i stedet for liten tekst
+- Steg 3-tekst: "Vi tar oss av tennene. Du tar med smilet hjem."
+
+---
+
+## Files of Interest
+
+| Fil | Formål |
+|-----|--------|
+| `frontend/public/data/default.json` | Aktive temaer (hovedside + student) |
+| `frontend/public/data/priser-student.json` | Studentside-innhold + venn-deal copy |
+| `frontend/src/index.css` | Alle CSS-variabler (3 hoved + 4 student-temaer + Hero overlays) |
+| `frontend/tailwind.config.js` | `amber.*` mappet til `--brand-X` |
+| `frontend/src/context/ThemeContext.jsx` | Theme provider for begge systemer |
+| `frontend/src/components/ThemeSwitcher.jsx` | Tema-velger hovedside |
+| `frontend/src/components/StudentThemePicker.jsx` | 4-sirkler velger student |
+| `frontend/src/pages/StudentLanding.jsx` | Studentside med `--st-*` vars |
+| `frontend/src/pages/StudentPoster.jsx` | QR-plakat for utskrift |
+| `frontend/src/hooks/use-meta-tags.js` | Dynamisk OG-tag oppdatering |
+
+---
 
 ## Prioritized Backlog
 
-### P0 - Innholdsvalg
-- [ ] Klienten velger endelig fargetema (1, 2 eller 3) → sette i `default.json`
-- [ ] Eventuelle finjusteringer av fargetonene basert på live-test
+### P0 — Ventende klient-beslutninger
+- [ ] **Hovedside-farge**: Per velger 1/2/3 i `default.json`
+- [ ] **Studentside-tema**: Per velger 1/2/3/4 i `default.json` (etter at datteren har testet på mobil)
+- [ ] **Plakat-godkjenning**: Per ser på `/student/plakat` og bekrefter
 
-### P1 - SendGrid e-post-integrasjon (NEXT)
-- [ ] Implementere POST /api/contact backend
-- [ ] Sende e-post via SendGrid når noen sender kontaktskjema
-- [ ] Verifisert avsender + mottaker
-- [ ] Koble Contact.jsx mot backend (erstatte mock)
+### P1 — SendGrid e-post (NESTE ØKT)
+- [ ] Sett opp MongoDB Atlas Free Tier cluster (steg-for-steg klar i tråden)
+- [ ] Backend `/api/contact` endpoint med MongoDB + SendGrid
+- [ ] Hovedside Contact.jsx → backend (erstatt mock)
+- [ ] StudentLanding form → backend (erstatt mock)
+- [ ] UTM-data inkluderes i e-post Per mottar
+- [ ] Krever fra Per: SendGrid API key + verifisert avsender + mottaker-e-post
 
-### P1 - Future Enhancements
+### P1 — Future Enhancements
+- [ ] Sporing-arkiv i MongoDB (egne UTM-data for queryable analyser)
 - [ ] Admin panel for kontaktforespørsler
 - [ ] Timebestillingssystem
-- [ ] Integrere med eksisterende booking system
+- [ ] Tidsbegrenset student-kampanje med utløpsdato
 
-### P2 - Nice to Have
+### P2 — Nice to Have
 - [ ] Multi-language support (norsk/engelsk)
-- [ ] Blog/artikkel seksjon
+- [ ] Blog/artikkel-seksjon
+- [ ] Ekte teambilder (avhenger av Per)
+- [ ] Self-served `/student/plakat`-generator for flere lokasjoner (utm_campaign per plakat)
 - [ ] Chat-bot
-- [ ] Analytics tracking
+- [ ] WhatsApp/SMS direct-link
+
+---
 
 ## Next Action Items
-1. Klienten ser live og velger fargetema (sett `colorScheme` til 1/2/3 i `default.json`)
-2. Skaffe SendGrid API key, verifisert avsender og mottaker-e-post
-3. Implementere SendGrid kontaktskjema-integrasjon
-4. Få ekte teambilder
+1. **E-post til Per** med lenker (utkast klar i conversation)
+2. **Vente på tilbakemelding** + valg av farge/student-tema
+3. **MongoDB Atlas-oppsett** (5–7 min jobb for Per)
+4. **SendGrid-integrasjon** når API-key er tilgjengelig
+5. **Deploy & dashboard-aktivering**: Vercel Analytics blir synlig når events kommer inn (1–24t etter første)
