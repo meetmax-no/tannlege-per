@@ -1,0 +1,9 @@
+{
+  "_meta": {
+    "client": "Per Måreid",
+    "createdAt": "2026-05-01",
+    "createdBy": "Ko | Do · Consult",
+    "notes": "colorScheme: 0 = preview (knapp i header), 1 = brun, 2 = lysblå, 3 = lysgrønn"
+  },
+  "colorScheme": 0
+}

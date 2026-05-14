@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Phone, Mail, Menu, X } from 'lucide-react';
 import { clinicInfo } from '../data/mockData';
+import { ThemeSwitcher } from './ThemeSwitcher';
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -87,6 +88,7 @@ export const Header = () => {
             >
               Kontakt oss
             </button>
+            <ThemeSwitcher variant="header" />
           </nav>
 
           <button
@@ -137,6 +139,7 @@ export const Header = () => {
             >
               Kontakt oss
             </button>
+            <ThemeSwitcher variant="mobile" />
           </nav>
         )}
       </div>

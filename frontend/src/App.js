@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import { ThemeProvider } from "./context/ThemeContext";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { Services } from "./components/Services";
@@ -13,18 +14,20 @@ import { Toaster } from "./components/ui/sonner";
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <Hero />
-      <Services />
-      <Team />
-      <Pricing />
-      <OpeningHours />
-      <Contact />
-      <Footer />
-      <ScrollToTop />
-      <Toaster />
-    </div>
+    <ThemeProvider>
+      <div className="App">
+        <Header />
+        <Hero />
+        <Services />
+        <Team />
+        <Pricing />
+        <OpeningHours />
+        <Contact />
+        <Footer />
+        <ScrollToTop />
+        <Toaster />
+      </div>
+    </ThemeProvider>
   );
 }
 

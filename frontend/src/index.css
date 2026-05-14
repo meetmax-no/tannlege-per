@@ -60,6 +60,59 @@ code {
         --chart-5: 27 87% 67%;
         --radius: 0.5rem;
     }
+
+    /* ============================================
+       BRAND COLOR SCHEMES
+       Channels (R G B) used with rgb(var(--x) / <alpha>)
+       so Tailwind opacity modifiers (bg-amber-900/65) keep working.
+       ============================================ */
+
+    /* Palette 1 — Brun / Amber (default) */
+    :root,
+    [data-color-scheme="1"] {
+        --brand-50:  255 251 235;
+        --brand-100: 254 243 199;
+        --brand-200: 253 230 138;
+        --brand-300: 252 211 77;
+        --brand-400: 251 191 36;
+        --brand-500: 245 158 11;
+        --brand-600: 217 119 6;
+        --brand-700: 180 83 9;
+        --brand-800: 146 64 14;
+        --brand-900: 120 53 15;
+        --brand-meta: #D97706;
+    }
+
+    /* Palette 2 — Lysblå / Sky */
+    [data-color-scheme="2"] {
+        --brand-50:  240 249 255;
+        --brand-100: 224 242 254;
+        --brand-200: 186 230 253;
+        --brand-300: 125 211 252;
+        --brand-400: 56  189 248;
+        --brand-500: 14  165 233;
+        --brand-600: 2   132 199;
+        --brand-700: 3   105 161;
+        --brand-800: 7   89  133;
+        --brand-900: 12  74  110;
+        --brand-meta: #0284C7;
+    }
+
+    /* Palette 3 — Lysgrønn / Emerald */
+    [data-color-scheme="3"] {
+        --brand-50:  236 253 245;
+        --brand-100: 209 250 229;
+        --brand-200: 167 243 208;
+        --brand-300: 110 231 183;
+        --brand-400: 52  211 153;
+        --brand-500: 16  185 129;
+        --brand-600: 5   150 105;
+        --brand-700: 4   120 87;
+        --brand-800: 6   95  70;
+        --brand-900: 6   78  59;
+        --brand-meta: #059669;
+    }
+
     .dark {
         --background: 0 0% 3.9%;
         --foreground: 0 0% 98%;
