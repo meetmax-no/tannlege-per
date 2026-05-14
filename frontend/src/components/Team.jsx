@@ -27,7 +27,7 @@ export const Team = () => {
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-full h-80 object-cover"
+                    className="w-full h-80 object-cover object-top"
                   />
                 </div>
                 <CardContent className="md:w-3/5 p-8">
