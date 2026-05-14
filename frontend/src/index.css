@@ -109,18 +109,18 @@ code {
         --brand-800: 7   89  133;
         --brand-900: 12  74  110;
         --brand-meta: #0284C7;
-        /* Hero overlay — lettere kjølig blå (mindre dominerende) */
+        /* Hero overlay — tunet 14. mai 2026 */
         --hero-gradient-desktop: linear-gradient(
             to right,
-            rgba(3, 105, 161, 0.75) 0%,
-            rgba(7, 89, 133, 0.55) 50%,
-            rgba(12, 74, 110, 0.00) 100%
+            rgba(3, 105, 161, 0.80) 0%,
+            rgba(3, 105, 161, 0.50) 50%,
+            rgba(3, 105, 161, 0.00) 100%
         );
         --hero-gradient-mobile: linear-gradient(
             to top,
-            rgba(3, 105, 161, 0.50) 0%,
-            rgba(7, 89, 133, 0.30) 50%,
-            rgba(12, 74, 110, 0.10) 100%
+            rgba(3, 105, 161, 0.55) 0%,
+            rgba(3, 105, 161, 0.32) 50%,
+            rgba(3, 105, 161, 0.10) 100%
         );
     }
 
@@ -137,18 +137,18 @@ code {
         --brand-800: 6   95  70;
         --brand-900: 6   78  59;
         --brand-meta: #059669;
-        /* Hero overlay — lettere kjølig grønn (mindre dominerende) */
+        /* Hero overlay — tunet 14. mai 2026 */
         --hero-gradient-desktop: linear-gradient(
             to right,
-            rgba(4, 120, 87, 0.75) 0%,
-            rgba(6, 95, 70, 0.55) 50%,
-            rgba(6, 78, 59, 0.00) 100%
+            rgba(4, 120, 87, 0.71) 0%,
+            rgba(4, 120, 87, 0.45) 50%,
+            rgba(4, 120, 87, 0.00) 100%
         );
         --hero-gradient-mobile: linear-gradient(
             to top,
             rgba(4, 120, 87, 0.50) 0%,
-            rgba(6, 95, 70, 0.30) 50%,
-            rgba(6, 78, 59, 0.10) 100%
+            rgba(4, 120, 87, 0.30) 50%,
+            rgba(4, 120, 87, 0.10) 100%
         );
     }
 

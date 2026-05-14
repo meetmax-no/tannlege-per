@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Palette, Check } from 'lucide-react';
+import { Palette, Check, SlidersHorizontal } from 'lucide-react';
 import { useTheme, SCHEME_NAMES, THEME_COLORS } from '../context/ThemeContext';
 
 /**
@@ -81,6 +81,17 @@ export const ThemeSwitcher = ({ variant = 'header' }) => {
           <div className="px-4 py-2 text-[11px] text-gray-400 border-t border-gray-100">
             Valget lagres lokalt
           </div>
+          <a
+            href="/farger-preview.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-4 py-2.5 text-xs font-medium text-gray-600 hover:bg-gray-50 transition-colors border-t border-gray-100"
+            data-testid="hero-tuner-link"
+          >
+            <SlidersHorizontal size={14} />
+            <span>Tilpass Hero-overlay</span>
+            <span className="ml-auto opacity-50">↗</span>
+          </a>
         </div>
       )}
     </div>
