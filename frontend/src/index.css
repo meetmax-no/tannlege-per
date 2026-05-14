@@ -102,18 +102,18 @@ code {
         --brand-800: 146 64 14;
         --brand-900: 120 53 15;
         --brand-meta: #D97706;
-        /* Hero overlay — varm brun, beholder dybde */
+        /* Hero overlay — tunet 14. mai 2026 */
         --hero-gradient-desktop: linear-gradient(
             to right,
-            rgba(120, 53, 15, 0.90) 0%,
-            rgba(146, 64, 14, 0.80) 50%,
-            rgba(120, 53, 15, 0.00) 100%
+            rgba(180, 83, 9, 0.75) 0%,
+            rgba(180, 83, 9, 0.55) 50%,
+            rgba(180, 83, 9, 0.00) 100%
         );
         --hero-gradient-mobile: linear-gradient(
             to top,
-            rgba(120, 53, 15, 0.65) 0%,
-            rgba(146, 64, 14, 0.45) 50%,
-            rgba(120, 53, 15, 0.20) 100%
+            rgba(180, 83, 9, 0.55) 0%,
+            rgba(180, 83, 9, 0.32) 50%,
+            rgba(180, 83, 9, 0.10) 100%
         );
     }
 
