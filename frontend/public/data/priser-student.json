@@ -2,12 +2,43 @@
   "_meta": {
     "title": "Studenttilbud",
     "description": "Markedsføring og vilkår for studentpakken",
-    "updatedAt": "2026-05-13"
+    "updatedAt": "2026-05-14"
   },
   "studenttilbud": {
     "aktiv": true,
     "pakke": "Undersøkelse/rtg og puss/rens: 950,-",
     "rabatt_ovrig": "15% rabatt på øvrig behandling",
     "merknad": "Gyldig studentbevis må fremvises"
+  },
+  "landing": {
+    "headline": ["Tenner.", "Studentbudsjett.", "Done."],
+    "tagline": "Sjekka. Røntga. Pussa.",
+    "pris": "950,–",
+    "pakke_inkluderer": [
+      "Undersøkelse hos tannlege",
+      "Røntgen",
+      "Profesjonell puss og rens"
+    ],
+    "rabatt_ovrig_kort": "15% rabatt på øvrig behandling",
+    "venn_deal": {
+      "tittel": "Ta med en venn",
+      "kort": "25% rabatt på øvrig behandling — for dere begge",
+      "forklaring": "Studentpris gir 15% rabatt på øvrig behandling. Kommer dere to sammen, blir det 25% rabatt — for hver av dere. Pakken på 950 kr forblir den samme."
+    },
+    "slik_gjor_du": [
+      { "steg": "1", "tittel": "Bestill time", "tekst": "Online eller på telefon — vi svarer raskt." },
+      { "steg": "2", "tittel": "Vis studentbevis", "tekst": "Gyldig digitalt eller fysisk bevis godtas." },
+      { "steg": "3", "tittel": "Slapp av", "tekst": "Vi tar oss av tennene. Du tar oss av kontoen." }
+    ],
+    "akutt": {
+      "tittel": "Tannverk akkurat nå?",
+      "tekst": "Ring oss på 22 35 57 00 — vi prioriterer akutte tilfeller samme dag.",
+      "telefon": "22 35 57 00"
+    },
+    "klinikk": {
+      "adresse": "Waldemar Thranes gate 68, 0173 Oslo",
+      "geo_tekst": "Rett ved Alexander Kiellands plass — inngangen er ved bussholdeplassen.",
+      "bilde": "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1200&q=80"
+    }
   }
 }

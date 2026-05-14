@@ -1,32 +1,23 @@
 import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import { ThemeProvider } from "./context/ThemeContext";
-import { Header } from "./components/Header";
-import { Hero } from "./components/Hero";
-import { Services } from "./components/Services";
-import { Team } from "./components/Team";
-import { Pricing } from "./components/Pricing";
-import { OpeningHours } from "./components/OpeningHours";
-import { Contact } from "./components/Contact";
-import { Footer } from "./components/Footer";
-import { ScrollToTop } from "./components/ScrollToTop";
+import { HomePage } from "./pages/HomePage";
+import { StudentLanding } from "./pages/StudentLanding";
 import { Toaster } from "./components/ui/sonner";
 
 function App() {
   return (
     <ThemeProvider>
-      <div className="App">
-        <Header />
-        <Hero />
-        <Services />
-        <Team />
-        <Pricing />
-        <OpeningHours />
-        <Contact />
-        <Footer />
-        <ScrollToTop />
-        <Toaster />
-      </div>
+      <BrowserRouter>
+        <div className="App">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/student" element={<StudentLanding />} />
+          </Routes>
+          <Toaster />
+        </div>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }
