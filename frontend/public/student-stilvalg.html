@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Student-side stilvarianter — Tannlegene Måreid</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Anton&family=Archivo+Black&display=swap" rel="stylesheet">
+<title>Student-side stilvarianter v2 — Tannlegene Måreid</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Archivo+Black&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; }
   body {
@@ -16,7 +16,7 @@
   }
   .wrap { max-width: 1280px; margin: 0 auto; }
   h1 { font-size: 28px; font-weight: 900; letter-spacing: -0.02em; margin: 0 0 6px; }
-  .lead { color: #57534E; margin-bottom: 36px; font-size: 14px; max-width: 600px; }
+  .lead { color: #57534E; margin-bottom: 36px; font-size: 14px; max-width: 640px; }
 
   .grid-3 {
     display: grid;
@@ -54,24 +54,17 @@
     letter-spacing: 0.05em;
     text-transform: uppercase;
   }
-  .swatches {
-    display: flex;
-    gap: 6px;
-    margin-top: 10px;
-  }
+  .swatches { display: flex; gap: 6px; margin-top: 10px; }
   .swatch {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     flex: 1;
     padding: 8px 4px;
     border-radius: 8px;
     font-size: 9px;
     font-weight: 700;
     font-family: 'SF Mono', Menlo, monospace;
+    text-align: center;
   }
 
-  /* Phone-frame mockup */
   .phone {
     position: relative;
     aspect-ratio: 9/19;
@@ -90,18 +83,12 @@
     align-items: center;
     font-size: 9px;
     font-weight: 700;
-    color: #57534E;
     margin-bottom: 14px;
+    position: relative;
+    z-index: 2;
   }
-  .phone .topbar .dots {
-    display: flex;
-    gap: 4px;
-  }
-  .phone .topbar .dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-  }
+  .phone .topbar .dots { display: flex; gap: 4px; }
+  .phone .topbar .dot { width: 12px; height: 12px; border-radius: 50%; }
 
   .badge {
     display: inline-block;
@@ -122,12 +109,7 @@
     margin: 0;
   }
   .hero-title span { display: block; }
-  .hero-sub {
-    margin: 10px 0 14px;
-    font-size: 11px;
-    color: #44403C;
-    font-weight: 500;
-  }
+  .hero-sub { margin: 10px 0 14px; font-size: 11px; font-weight: 500; }
 
   .price-card {
     border-radius: 18px;
@@ -162,18 +144,9 @@
     gap: 5px;
     padding: 2px 0;
   }
-  .price-list li::before {
-    content: '✓';
-    font-weight: 900;
-    font-size: 11px;
-  }
+  .price-list li::before { content: '✓'; font-weight: 900; font-size: 11px; }
 
-  .btns {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 14px;
-  }
+  .btns { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
   .btn {
     border-radius: 12px;
     padding: 10px;
@@ -204,84 +177,84 @@
     line-height: 1;
     margin: 0;
   }
-  .deal-title em {
-    font-style: normal;
-  }
-  .deal-text {
-    margin-top: 8px;
-    font-size: 10px;
-    font-weight: 500;
-  }
+  .deal-title em { font-style: normal; }
+  .deal-text { margin-top: 8px; font-size: 10px; font-weight: 500; }
 
-  /* Decorative blobs */
   .blob {
     position: absolute;
     border-radius: 50%;
     filter: blur(40px);
-    opacity: 0.4;
+    opacity: 0.45;
     pointer-events: none;
   }
 
   /* ============================================
-     VARIANT 1 — TANGERINE (orange-led)
+     VARIANT 1 — TANGERINE (orange + lime)
      ============================================ */
   .v-tangerine .screen { background: #FAFAF7; color: #0A0A0A; }
+  .v-tangerine .topbar { color: #44403C; }
   .v-tangerine .badge { background: #FFE5DA; color: #B8390E; }
   .v-tangerine .hero-title .last { color: #FF5C28; }
+  .v-tangerine .hero-sub { color: #57534E; }
   .v-tangerine .price-card { background: #0A0A0A; color: white; }
   .v-tangerine .price-num { color: #C0FF00; }
+  .v-tangerine .price-suffix { color: #A8A29E; }
   .v-tangerine .price-list li::before { color: #C0FF00; }
   .v-tangerine .btn.primary { background: #FF5C28; color: #0A0A0A; }
   .v-tangerine .btn.secondary { background: transparent; color: #0A0A0A; border-color: #0A0A0A; }
-  .v-tangerine .deal { background: #FF2E93; color: white; }
-  .v-tangerine .deal-tag { background: rgba(255,255,255,0.2); color: white; }
+  .v-tangerine .deal { background: #FF5C28; color: white; }
+  .v-tangerine .deal-tag { background: rgba(0,0,0,0.85); color: #C0FF00; }
   .v-tangerine .deal-title em { color: #C0FF00; }
   .v-tangerine .blob-a { background: #FF5C28; width: 220px; height: 220px; top: -60px; right: -50px; }
-  .v-tangerine .blob-b { background: #C0FF00; width: 160px; height: 160px; bottom: 30%; left: -40px; opacity: 0.3; }
+  .v-tangerine .blob-b { background: #C0FF00; width: 160px; height: 160px; bottom: 25%; left: -50px; opacity: 0.35; }
 
   /* ============================================
-     VARIANT 2 — BUBBLEGUM (pink-led)
+     VARIANT 2 — VOLTAGE (blue + lime)
      ============================================ */
-  .v-bubblegum .screen { background: #FFF7F9; color: #0A0A0A; }
-  .v-bubblegum .badge { background: #FFD4E5; color: #B8146F; }
-  .v-bubblegum .hero-title .last { color: #FF2E93; }
-  .v-bubblegum .price-card { background: #FF5C28; color: white; }
-  .v-bubblegum .price-num { color: white; }
-  .v-bubblegum .price-suffix { color: #FFD4C4; }
-  .v-bubblegum .price-list li::before { color: #C0FF00; }
-  .v-bubblegum .btn.primary { background: #FF2E93; color: white; }
-  .v-bubblegum .btn.secondary { background: transparent; color: #0A0A0A; border-color: #0A0A0A; }
-  .v-bubblegum .deal { background: #C0FF00; color: #0A0A0A; }
-  .v-bubblegum .deal-tag { background: #0A0A0A; color: #C0FF00; }
-  .v-bubblegum .deal-title em { color: #FF2E93; }
-  .v-bubblegum .blob-a { background: #FF2E93; width: 200px; height: 200px; top: -50px; right: -40px; }
-  .v-bubblegum .blob-b { background: #C0FF00; width: 180px; height: 180px; bottom: 25%; left: -50px; opacity: 0.35; }
+  .v-voltage .screen { background: #FAFAF7; color: #0A0A0A; }
+  .v-voltage .topbar { color: #44403C; }
+  .v-voltage .badge { background: #DBEAFE; color: #1D4ED8; }
+  .v-voltage .hero-title .last { color: #2563EB; }
+  .v-voltage .hero-sub { color: #57534E; }
+  .v-voltage .price-card { background: #0F172A; color: white; }
+  .v-voltage .price-num { color: #C0FF00; }
+  .v-voltage .price-suffix { color: #94A3B8; }
+  .v-voltage .price-list li::before { color: #C0FF00; }
+  .v-voltage .btn.primary { background: #2563EB; color: white; }
+  .v-voltage .btn.secondary { background: transparent; color: #0A0A0A; border-color: #0A0A0A; }
+  .v-voltage .deal { background: #2563EB; color: white; }
+  .v-voltage .deal-tag { background: #0F172A; color: #C0FF00; }
+  .v-voltage .deal-title em { color: #C0FF00; }
+  .v-voltage .blob-a { background: #2563EB; width: 220px; height: 220px; top: -60px; right: -50px; }
+  .v-voltage .blob-b { background: #C0FF00; width: 160px; height: 160px; bottom: 25%; left: -50px; opacity: 0.3; }
 
   /* ============================================
-     VARIANT 3 — ACID SPLASH (lime-led)
+     VARIANT 3 — HONEY (amber + orange)
      ============================================ */
-  .v-acid .screen { background: #F8FFE5; color: #0A0A0A; }
-  .v-acid .badge { background: #0A0A0A; color: #C0FF00; }
-  .v-acid .hero-title .last { color: #0A0A0A; -webkit-text-stroke: 0; background: #C0FF00; padding: 0 6px; display: inline-block; }
-  .v-acid .price-card { background: #C0FF00; color: #0A0A0A; }
-  .v-acid .price-num { color: #0A0A0A; }
-  .v-acid .price-suffix { color: #0A0A0A; }
-  .v-acid .price-list li::before { color: #FF5C28; }
-  .v-acid .btn.primary { background: #0A0A0A; color: #C0FF00; }
-  .v-acid .btn.secondary { background: #FF2E93; color: white; border-color: transparent; }
-  .v-acid .deal { background: #FF2E93; color: white; }
-  .v-acid .deal-tag { background: #C0FF00; color: #0A0A0A; }
-  .v-acid .deal-title em { color: #C0FF00; }
-  .v-acid .blob-a { background: #C0FF00; width: 240px; height: 240px; top: -80px; right: -60px; opacity: 0.5; }
-  .v-acid .blob-b { background: #FF2E93; width: 160px; height: 160px; bottom: 20%; left: -50px; opacity: 0.25; }
+  .v-honey .screen { background: #FFFBEB; color: #1C1917; }
+  .v-honey .topbar { color: #57534E; }
+  .v-honey .badge { background: #FEF3C7; color: #92400E; }
+  .v-honey .hero-title .last { color: #EA580C; }
+  .v-honey .hero-sub { color: #57534E; }
+  .v-honey .price-card { background: #78350F; color: white; }
+  .v-honey .price-num { color: #FB923C; }
+  .v-honey .price-suffix { color: #FED7AA; }
+  .v-honey .price-list li::before { color: #FB923C; }
+  .v-honey .btn.primary { background: #EA580C; color: white; }
+  .v-honey .btn.secondary { background: transparent; color: #78350F; border-color: #78350F; }
+  .v-honey .deal { background: #D97706; color: white; }
+  .v-honey .deal-tag { background: #78350F; color: #FED7AA; }
+  .v-honey .deal-title em { color: #FFEDD5; font-style: italic; font-weight: 600; }
+  .v-honey .blob-a { background: #EA580C; width: 220px; height: 220px; top: -60px; right: -50px; }
+  .v-honey .blob-b { background: #FCD34D; width: 180px; height: 180px; bottom: 25%; left: -60px; opacity: 0.4; }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>Student-side · stilvarianter</h1>
+  <h1>Student-side · stilvarianter v2</h1>
   <p class="lead">
-    Tre lyse retninger med samme paletter (oransje + pink + limegrønn) — men ulik hovedrolle.
-    Velg den som treffer best, så bygger jeg den i selve student-siden.
+    Tre stilrene 2-fargers retninger. Mer balansert enn forrige runde.
+    Velg den som treffer — eller si hva som skal justeres.
   </p>
 
   <div class="grid-3">
@@ -290,11 +263,11 @@
     <div class="variant v-tangerine">
       <div class="variant-head">
         <div class="variant-name">1. Tangerine</div>
-        <div class="variant-tag">Oransje primær · varm bold · klassisk</div>
+        <div class="variant-tag">Oransje + lime · varm bold · klassisk</div>
         <div class="swatches">
-          <div class="swatch" style="background:#FF5C28;color:white">FF5C28</div>
-          <div class="swatch" style="background:#FF2E93;color:white">FF2E93</div>
-          <div class="swatch" style="background:#C0FF00;color:#0A0A0A">C0FF00</div>
+          <div class="swatch" style="background:#FF5C28;color:white">#FF5C28</div>
+          <div class="swatch" style="background:#C0FF00;color:#0A0A0A">#C0FF00</div>
+          <div class="swatch" style="background:#0A0A0A;color:white">#0A0A0A</div>
         </div>
       </div>
       <div class="phone">
@@ -305,62 +278,8 @@
             <span>← Hovedsiden</span>
             <div class="dots">
               <div class="dot" style="background:#FF5C28"></div>
-              <div class="dot" style="background:#FF2E93;opacity:0.4"></div>
-              <div class="dot" style="background:#C0FF00;opacity:0.4"></div>
-            </div>
-          </div>
-          <div style="position:relative">
-            <div class="badge">⚡ Studenttilbud</div>
-            <h2 class="hero-title">
-              <span>Tenner.</span>
-              <span>Studentbudsjett.</span>
-              <span class="last">Done.</span>
-            </h2>
-            <p class="hero-sub">Sjekka. Røntga. Pussa.</p>
-            <div class="price-card">
-              <span class="price-num">950,–</span>
-              <span class="price-suffix" style="color:#A8A29E">for studenter</span>
-              <ul class="price-list">
-                <li>Undersøkelse</li>
-                <li>Røntgen</li>
-                <li>Puss og rens</li>
-              </ul>
-            </div>
-            <div class="btns">
-              <div class="btn primary">Bestill din time →</div>
-              <div class="btn secondary">📞 Ring oss</div>
-            </div>
-            <div class="deal">
-              <span class="deal-tag">👥 Bonus</span>
-              <h3 class="deal-title">Ta med en venn.<br/><em>Begge sparer mer.</em></h3>
-              <p class="deal-text">25% rabatt på øvrig behandling — for dere begge.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- VARIANT 2: BUBBLEGUM -->
-    <div class="variant v-bubblegum">
-      <div class="variant-head">
-        <div class="variant-name">2. Bubblegum</div>
-        <div class="variant-tag">Pink primær · ungt · lekent</div>
-        <div class="swatches">
-          <div class="swatch" style="background:#FF2E93;color:white">FF2E93</div>
-          <div class="swatch" style="background:#FF5C28;color:white">FF5C28</div>
-          <div class="swatch" style="background:#C0FF00;color:#0A0A0A">C0FF00</div>
-        </div>
-      </div>
-      <div class="phone">
-        <div class="screen">
-          <div class="blob blob-a"></div>
-          <div class="blob blob-b"></div>
-          <div class="topbar">
-            <span>← Hovedsiden</span>
-            <div class="dots">
-              <div class="dot" style="background:#FF5C28;opacity:0.4"></div>
-              <div class="dot" style="background:#FF2E93"></div>
-              <div class="dot" style="background:#C0FF00;opacity:0.4"></div>
+              <div class="dot" style="background:#2563EB;opacity:0.25"></div>
+              <div class="dot" style="background:#D97706;opacity:0.25"></div>
             </div>
           </div>
           <div style="position:relative">
@@ -394,15 +313,15 @@
       </div>
     </div>
 
-    <!-- VARIANT 3: ACID SPLASH -->
-    <div class="variant v-acid">
+    <!-- VARIANT 2: VOLTAGE -->
+    <div class="variant v-voltage">
       <div class="variant-head">
-        <div class="variant-name">3. Acid Splash</div>
-        <div class="variant-tag">Limegrønn primær · kantete · høyest energi</div>
+        <div class="variant-name">2. Voltage</div>
+        <div class="variant-tag">Elektrisk blå + lime · friskt · modig</div>
         <div class="swatches">
-          <div class="swatch" style="background:#C0FF00;color:#0A0A0A">C0FF00</div>
-          <div class="swatch" style="background:#FF5C28;color:white">FF5C28</div>
-          <div class="swatch" style="background:#FF2E93;color:white">FF2E93</div>
+          <div class="swatch" style="background:#2563EB;color:white">#2563EB</div>
+          <div class="swatch" style="background:#C0FF00;color:#0A0A0A">#C0FF00</div>
+          <div class="swatch" style="background:#0F172A;color:white">#0F172A</div>
         </div>
       </div>
       <div class="phone">
@@ -412,9 +331,63 @@
           <div class="topbar">
             <span>← Hovedsiden</span>
             <div class="dots">
-              <div class="dot" style="background:#FF5C28;opacity:0.4"></div>
-              <div class="dot" style="background:#FF2E93;opacity:0.4"></div>
-              <div class="dot" style="background:#C0FF00"></div>
+              <div class="dot" style="background:#FF5C28;opacity:0.25"></div>
+              <div class="dot" style="background:#2563EB"></div>
+              <div class="dot" style="background:#D97706;opacity:0.25"></div>
+            </div>
+          </div>
+          <div style="position:relative">
+            <div class="badge">⚡ Studenttilbud</div>
+            <h2 class="hero-title">
+              <span>Tenner.</span>
+              <span>Studentbudsjett.</span>
+              <span class="last">Done.</span>
+            </h2>
+            <p class="hero-sub">Sjekka. Røntga. Pussa.</p>
+            <div class="price-card">
+              <span class="price-num">950,–</span>
+              <span class="price-suffix">for studenter</span>
+              <ul class="price-list">
+                <li>Undersøkelse</li>
+                <li>Røntgen</li>
+                <li>Puss og rens</li>
+              </ul>
+            </div>
+            <div class="btns">
+              <div class="btn primary">Bestill din time →</div>
+              <div class="btn secondary">📞 Ring oss</div>
+            </div>
+            <div class="deal">
+              <span class="deal-tag">👥 Bonus</span>
+              <h3 class="deal-title">Ta med en venn.<br/><em>Begge sparer mer.</em></h3>
+              <p class="deal-text">25% rabatt på øvrig behandling — for dere begge.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VARIANT 3: HONEY -->
+    <div class="variant v-honey">
+      <div class="variant-head">
+        <div class="variant-name">3. Honey</div>
+        <div class="variant-tag">Amber + oransje · varmt · premium</div>
+        <div class="swatches">
+          <div class="swatch" style="background:#D97706;color:white">#D97706</div>
+          <div class="swatch" style="background:#EA580C;color:white">#EA580C</div>
+          <div class="swatch" style="background:#78350F;color:white">#78350F</div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="screen">
+          <div class="blob blob-a"></div>
+          <div class="blob blob-b"></div>
+          <div class="topbar">
+            <span>← Hovedsiden</span>
+            <div class="dots">
+              <div class="dot" style="background:#FF5C28;opacity:0.25"></div>
+              <div class="dot" style="background:#2563EB;opacity:0.25"></div>
+              <div class="dot" style="background:#D97706"></div>
             </div>
           </div>
           <div style="position:relative">
@@ -451,7 +424,7 @@
   </div>
 
   <p class="lead" style="margin-top: 40px; text-align: center;">
-    Si fra hvilken som treffer — eller hva du vil justere — så bygger jeg det inn i student-siden. 🦷⚡
+    Si fra hvilken som treffer — eller hva som skal justeres — så bygger jeg den inn i student-siden. 🦷⚡
   </p>
 </div>
 </body>
