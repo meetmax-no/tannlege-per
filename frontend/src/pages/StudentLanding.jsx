@@ -313,9 +313,13 @@ export const StudentLanding = () => {
             >
               <Send size={18} /> Send forespørsel
             </button>
-            <p className="text-xs text-stone-500 text-center">
-              Eller ring oss direkte på <a href={`tel:${PHONE_TEL}`} className="underline font-semibold">{PHONE}</a>
-            </p>
+            <a
+              href={`tel:${PHONE_TEL}`}
+              className="flex items-center justify-center gap-3 mt-2 text-stone-900 font-bold text-2xl hover:opacity-70 transition-opacity"
+              data-testid="form-call-link"
+            >
+              <Phone size={22} /> {PHONE}
+            </a>
           </form>
         </div>
       </section>
