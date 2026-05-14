@@ -173,6 +173,103 @@ code {
         );
     }
 
+    /* ============================================
+       STUDENT-PAGE THEMES (uavhengige av hovedsidens palett)
+       Variant 1=Bubblegum · 2=Voltage · 3=Honey · 4=Emerald
+       ============================================ */
+
+    /* 1 — BUBBLEGUM (pink + lime) */
+    [data-student-theme="1"] {
+        --st-bg: #FFF7FB;
+        --st-blob-a: rgba(255, 46, 147, 0.45);
+        --st-blob-b: rgba(192, 255, 0, 0.35);
+        --st-text: #0A0A0A;
+        --st-text-muted: #57534E;
+        --st-badge-bg: #FFD4E5;
+        --st-badge-text: #B8146F;
+        --st-accent: #FF2E93;
+        --st-accent-text: #FFFFFF;
+        --st-pop: #C0FF00;
+        --st-card-bg: #0A0A0A;
+        --st-card-text: #FFFFFF;
+        --st-card-muted: #A8A29E;
+        --st-card-pop: #C0FF00;
+        --st-deal-bg: #FF2E93;
+        --st-deal-text: #FFFFFF;
+        --st-deal-tag-bg: #0A0A0A;
+        --st-deal-tag-text: #C0FF00;
+        --st-deal-accent: #C0FF00;
+    }
+
+    /* 2 — VOLTAGE (blue + lime) */
+    [data-student-theme="2"] {
+        --st-bg: #FAFAF7;
+        --st-blob-a: rgba(37, 99, 235, 0.45);
+        --st-blob-b: rgba(192, 255, 0, 0.30);
+        --st-text: #0A0A0A;
+        --st-text-muted: #57534E;
+        --st-badge-bg: #DBEAFE;
+        --st-badge-text: #1D4ED8;
+        --st-accent: #2563EB;
+        --st-accent-text: #FFFFFF;
+        --st-pop: #C0FF00;
+        --st-card-bg: #0F172A;
+        --st-card-text: #FFFFFF;
+        --st-card-muted: #94A3B8;
+        --st-card-pop: #C0FF00;
+        --st-deal-bg: #2563EB;
+        --st-deal-text: #FFFFFF;
+        --st-deal-tag-bg: #0F172A;
+        --st-deal-tag-text: #C0FF00;
+        --st-deal-accent: #C0FF00;
+    }
+
+    /* 3 — HONEY (amber + orange) */
+    [data-student-theme="3"] {
+        --st-bg: #FFFBEB;
+        --st-blob-a: rgba(234, 88, 12, 0.45);
+        --st-blob-b: rgba(252, 211, 77, 0.40);
+        --st-text: #1C1917;
+        --st-text-muted: #57534E;
+        --st-badge-bg: #FEF3C7;
+        --st-badge-text: #92400E;
+        --st-accent: #EA580C;
+        --st-accent-text: #FFFFFF;
+        --st-pop: #FB923C;
+        --st-card-bg: #78350F;
+        --st-card-text: #FFFFFF;
+        --st-card-muted: #FED7AA;
+        --st-card-pop: #FB923C;
+        --st-deal-bg: #D97706;
+        --st-deal-text: #FFFFFF;
+        --st-deal-tag-bg: #78350F;
+        --st-deal-tag-text: #FED7AA;
+        --st-deal-accent: #FFEDD5;
+    }
+
+    /* 4 — EMERALD (klassisk grønn fra hovedsiden) */
+    [data-student-theme="4"] {
+        --st-bg: #ECFDF5;
+        --st-blob-a: rgba(16, 185, 129, 0.35);
+        --st-blob-b: rgba(110, 231, 183, 0.40);
+        --st-text: #064E3B;
+        --st-text-muted: #047857;
+        --st-badge-bg: #D1FAE5;
+        --st-badge-text: #065F46;
+        --st-accent: #059669;
+        --st-accent-text: #FFFFFF;
+        --st-pop: #6EE7B7;
+        --st-card-bg: #064E3B;
+        --st-card-text: #FFFFFF;
+        --st-card-muted: #A7F3D0;
+        --st-card-pop: #6EE7B7;
+        --st-deal-bg: #047857;
+        --st-deal-text: #FFFFFF;
+        --st-deal-tag-bg: #064E3B;
+        --st-deal-tag-text: #6EE7B7;
+        --st-deal-accent: #6EE7B7;
+    }
+
     .dark {
         --background: 0 0% 3.9%;
         --foreground: 0 0% 98%;

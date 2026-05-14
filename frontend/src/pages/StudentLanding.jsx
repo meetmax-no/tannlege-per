@@ -15,7 +15,7 @@ const fallback = {
   rabatt_ovrig_kort: '15% rabatt på øvrig behandling',
   venn_deal: {
     tittel: 'Ta med en venn',
-    kort: '25% rabatt på øvrig behandling — for dere begge',
+    kort: '15% alene. 25% med en venn.',
     forklaring: ''
   },
   slik_gjor_du: [],
@@ -28,19 +28,19 @@ const PHONE_TEL = PHONE.replace(/\s/g, '');
 
 export const StudentLanding = () => {
   const [data, setData] = useState(fallback);
-  const [form, setForm] = useState({ navn: '', telefon: '', melding: 'Studenttilbud (950,–) — ønsker å bestille time.' });
+  const [form, setForm] = useState({
+    navn: '',
+    telefon: '',
+    melding: 'Studenttilbud (950,–) — ønsker å bestille time.'
+  });
   const { studentScheme } = useTheme();
 
   useEffect(() => {
     document.title = 'Studenttilbud 950,– | Tannlegene Måreid';
     fetch('/data/priser-student.json', { cache: 'no-store' })
       .then((r) => r.json())
-      .then((d) => {
-        if (d && d.landing) setData({ ...fallback, ...d.landing });
-      })
+      .then((d) => { if (d && d.landing) setData({ ...fallback, ...d.landing }); })
       .catch(() => {});
-
-    // Smooth scroll for anchor-links
     document.documentElement.style.scrollBehavior = 'smooth';
     return () => { document.documentElement.style.scrollBehavior = ''; };
   }, []);
@@ -62,17 +62,21 @@ export const StudentLanding = () => {
     setForm({ navn: '', telefon: '', melding: 'Studenttilbud (950,–) — ønsker å bestille time.' });
   };
 
+  // Inline-style shorthand
+  const c = (varName) => `var(--st-${varName})`;
+
   return (
     <div
-      className="min-h-screen bg-stone-50 text-stone-900 selection:bg-amber-200 selection:text-amber-900"
-      data-color-scheme={String(studentScheme)}
+      data-student-theme={String(studentScheme)}
+      style={{ backgroundColor: c('bg'), color: c('text') }}
+      className="min-h-screen"
     >
       {/* Mini header */}
       <header className="sticky top-0 z-40 backdrop-blur-md bg-white/80 border-b border-stone-200">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
           <Link
             to="/"
-            className="flex items-center gap-2 text-sm font-medium text-stone-600 hover:text-amber-700 transition-colors"
+            className="flex items-center gap-2 text-sm font-medium text-stone-600 transition-colors hover:opacity-70"
             data-testid="back-home-link"
           >
             <ArrowLeft size={16} /> <span>Hovedsiden</span>
@@ -86,20 +90,24 @@ export const StudentLanding = () => {
 
       {/* HERO */}
       <section className="relative overflow-hidden">
-        {/* Decorative ambient blob */}
+        {/* Decorative blobs */}
         <div
           aria-hidden
-          className="absolute -top-20 -right-32 w-[480px] h-[480px] rounded-full opacity-30 blur-3xl"
-          style={{ background: 'radial-gradient(circle, rgb(var(--brand-400)) 0%, transparent 70%)' }}
+          className="absolute -top-20 -right-32 w-[480px] h-[480px] rounded-full blur-3xl pointer-events-none"
+          style={{ background: `radial-gradient(circle, ${c('blob-a')} 0%, transparent 70%)` }}
         />
         <div
           aria-hidden
-          className="absolute -bottom-40 -left-40 w-[520px] h-[520px] rounded-full opacity-25 blur-3xl"
-          style={{ background: 'radial-gradient(circle, rgb(var(--brand-600)) 0%, transparent 70%)' }}
+          className="absolute -bottom-40 -left-40 w-[520px] h-[520px] rounded-full blur-3xl pointer-events-none"
+          style={{ background: `radial-gradient(circle, ${c('blob-b')} 0%, transparent 70%)` }}
         />
 
         <div className="relative max-w-5xl mx-auto px-4 pt-12 pb-16 sm:pt-20 sm:pb-24">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold tracking-wider uppercase mb-6 student-fade-in">
+          <div
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase mb-6 student-fade-in"
+            style={{ backgroundColor: c('badge-bg'), color: c('badge-text') }}
+            data-testid="student-badge"
+          >
             <Sparkles size={12} /> Studenttilbud
           </div>
 
@@ -110,7 +118,7 @@ export const StudentLanding = () => {
                 className="block student-line"
                 style={{
                   animationDelay: `${i * 120}ms`,
-                  color: i === data.headline.length - 1 ? 'rgb(var(--brand-700))' : 'rgb(28 25 23)'
+                  color: i === data.headline.length - 1 ? c('accent') : c('text')
                 }}
               >
                 {line}
@@ -118,45 +126,59 @@ export const StudentLanding = () => {
             ))}
           </h1>
 
-          <p className="mt-6 text-lg sm:text-xl text-stone-600 font-medium student-fade-in" style={{ animationDelay: '500ms' }}>
+          <p
+            className="mt-6 text-lg sm:text-xl font-medium student-fade-in"
+            style={{ animationDelay: '500ms', color: c('text-muted') }}
+          >
             {data.tagline}
           </p>
 
           {/* Price card */}
           <div
-            className="mt-8 inline-flex flex-col bg-white rounded-3xl px-7 py-6 shadow-xl border border-stone-100 student-fade-in"
-            style={{ animationDelay: '650ms' }}
+            className="mt-8 inline-flex flex-col rounded-3xl px-7 py-6 shadow-xl student-fade-in"
+            style={{
+              animationDelay: '650ms',
+              backgroundColor: c('card-bg'),
+              color: c('card-text')
+            }}
             data-testid="price-card"
           >
             <div className="flex items-baseline gap-2">
-              <span className="text-6xl sm:text-7xl font-black tracking-tight" style={{ color: 'rgb(var(--brand-700))' }}>
+              <span
+                className="text-6xl sm:text-7xl font-black tracking-tight"
+                style={{ color: c('card-pop') }}
+              >
                 {data.pris}
               </span>
-              <span className="text-stone-500 font-medium">for studenter</span>
+              <span style={{ color: c('card-muted') }} className="font-medium">for studenter</span>
             </div>
             <ul className="mt-4 space-y-1.5">
               {data.pakke_inkluderer.map((item, i) => (
-                <li key={i} className="flex items-center gap-2 text-sm text-stone-700">
-                  <Check size={16} className="text-amber-700 flex-shrink-0" />
+                <li key={i} className="flex items-center gap-2 text-sm">
+                  <Check size={16} style={{ color: c('card-pop') }} className="flex-shrink-0" />
                   <span>{item}</span>
                 </li>
               ))}
             </ul>
-            <p className="mt-3 text-xs text-stone-500">+ {data.rabatt_ovrig_kort} (med gyldig studentbevis)</p>
+            <p className="mt-3 text-xs" style={{ color: c('card-muted') }}>
+              + {data.rabatt_ovrig_kort} (med gyldig studentbevis)
+            </p>
           </div>
 
           {/* CTA row */}
           <div className="mt-8 flex flex-col sm:flex-row gap-3 student-fade-in" style={{ animationDelay: '800ms' }}>
             <button
               onClick={() => scrollTo('bestill')}
-              className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-amber-700 text-white font-bold text-base hover:bg-amber-800 transition-all hover:scale-[1.02] shadow-lg"
+              className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl font-bold text-base transition-all hover:scale-[1.02] shadow-lg"
+              style={{ backgroundColor: c('accent'), color: c('accent-text') }}
               data-testid="cta-bestill"
             >
               Bestill din time <span aria-hidden>→</span>
             </button>
             <a
               href={`tel:${PHONE_TEL}`}
-              className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-white text-stone-900 font-bold text-base border-2 border-stone-900 hover:bg-stone-900 hover:text-white transition-all"
+              className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl font-bold text-base transition-all border-2 hover:opacity-80"
+              style={{ borderColor: c('text'), color: c('text') }}
               data-testid="cta-ring"
             >
               <Phone size={18} /> Ring oss
@@ -168,7 +190,7 @@ export const StudentLanding = () => {
       {/* SLIK GJØR DU */}
       <section className="bg-white border-y border-stone-200">
         <div className="max-w-5xl mx-auto px-4 py-14 sm:py-20">
-          <h2 className="text-3xl sm:text-4xl font-black mb-2">Slik gjør du</h2>
+          <h2 className="text-3xl sm:text-4xl font-black mb-2 text-stone-900">Slik gjør du</h2>
           <p className="text-stone-500 mb-10">Tre steg. Det er det.</p>
           <div className="grid sm:grid-cols-3 gap-5">
             {data.slik_gjor_du.map((s) => (
@@ -177,14 +199,14 @@ export const StudentLanding = () => {
                 className="relative bg-stone-50 rounded-2xl p-6 border border-stone-100"
               >
                 <div
-                  className="absolute -top-4 -left-2 text-8xl font-black opacity-10 leading-none select-none"
-                  style={{ color: 'rgb(var(--brand-700))' }}
+                  className="absolute -top-4 -left-2 text-8xl font-black opacity-15 leading-none select-none"
+                  style={{ color: c('accent') }}
                   aria-hidden
                 >
                   {s.steg}
                 </div>
                 <div className="relative">
-                  <div className="font-bold text-lg mb-1">{s.tittel}</div>
+                  <div className="font-bold text-lg mb-1 text-stone-900">{s.tittel}</div>
                   <div className="text-sm text-stone-600 leading-relaxed">{s.tekst}</div>
                 </div>
               </div>
@@ -194,19 +216,25 @@ export const StudentLanding = () => {
       </section>
 
       {/* VENN-DEAL */}
-      <section className="relative overflow-hidden" style={{ background: 'rgb(var(--brand-900))' }}>
-        <div className="max-w-5xl mx-auto px-4 py-16 sm:py-24 text-white relative">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold tracking-wider uppercase mb-6">
-            <Users size={12} /> Bonus
+      <section
+        className="relative overflow-hidden"
+        style={{ backgroundColor: c('deal-bg'), color: c('deal-text') }}
+      >
+        <div className="max-w-5xl mx-auto px-4 py-16 sm:py-24 relative">
+          <div
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase mb-6"
+            style={{ backgroundColor: c('deal-tag-bg'), color: c('deal-tag-text') }}
+          >
+            <Users size={12} /> +10% bonus
           </div>
           <h2 className="text-4xl sm:text-6xl font-black tracking-tight leading-[0.95] mb-6">
             {data.venn_deal.tittel}.<br />
-            <span style={{ color: 'rgb(var(--brand-300))' }}>Begge sparer mer.</span>
+            <span style={{ color: c('deal-accent') }}>Begge sparer mer.</span>
           </h2>
           <p className="text-xl sm:text-2xl font-semibold mb-4 max-w-2xl">
             {data.venn_deal.kort}
           </p>
-          <p className="text-base text-white/70 max-w-2xl leading-relaxed">
+          <p className="text-base opacity-90 max-w-2xl leading-relaxed">
             {data.venn_deal.forklaring}
           </p>
         </div>
@@ -237,47 +265,50 @@ export const StudentLanding = () => {
       {/* BESTILL FORM */}
       <section id="bestill" className="bg-stone-50">
         <div className="max-w-2xl mx-auto px-4 py-16 sm:py-20">
-          <h2 className="text-3xl sm:text-4xl font-black mb-2">Bestill din studenttime</h2>
+          <h2 className="text-3xl sm:text-4xl font-black mb-2 text-stone-900">Bestill din studenttime</h2>
           <p className="text-stone-500 mb-8">Fyll inn navn og telefon. Vi ringer deg tilbake.</p>
 
           <form onSubmit={onSubmit} className="space-y-4" data-testid="student-form">
             <div>
-              <label className="block text-sm font-bold mb-1.5">Navn *</label>
+              <label className="block text-sm font-bold mb-1.5 text-stone-900">Navn *</label>
               <input
                 type="text"
                 required
                 value={form.navn}
                 onChange={(e) => setForm({ ...form, navn: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl border border-stone-300 focus:outline-none focus:border-amber-700 focus:ring-2 focus:ring-amber-700/20 transition-all"
+                className="w-full px-4 py-3 rounded-xl border border-stone-300 bg-white focus:outline-none focus:ring-2 transition-all"
+                style={{ '--tw-ring-color': c('accent') }}
                 placeholder="Hva heter du?"
                 data-testid="form-navn"
               />
             </div>
             <div>
-              <label className="block text-sm font-bold mb-1.5">Telefon *</label>
+              <label className="block text-sm font-bold mb-1.5 text-stone-900">Telefon *</label>
               <input
                 type="tel"
                 required
                 value={form.telefon}
                 onChange={(e) => setForm({ ...form, telefon: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl border border-stone-300 focus:outline-none focus:border-amber-700 focus:ring-2 focus:ring-amber-700/20 transition-all"
+                className="w-full px-4 py-3 rounded-xl border border-stone-300 bg-white focus:outline-none focus:ring-2 transition-all"
+                style={{ '--tw-ring-color': c('accent') }}
                 placeholder="Telefonnummeret ditt"
                 data-testid="form-telefon"
               />
             </div>
             <div>
-              <label className="block text-sm font-bold mb-1.5">Melding (valgfritt)</label>
+              <label className="block text-sm font-bold mb-1.5 text-stone-900">Melding (valgfritt)</label>
               <textarea
                 rows={3}
                 value={form.melding}
                 onChange={(e) => setForm({ ...form, melding: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl border border-stone-300 focus:outline-none focus:border-amber-700 focus:ring-2 focus:ring-amber-700/20 transition-all resize-none"
+                className="w-full px-4 py-3 rounded-xl border border-stone-300 bg-white focus:outline-none focus:ring-2 transition-all resize-none"
                 data-testid="form-melding"
               />
             </div>
             <button
               type="submit"
-              className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-amber-700 text-white font-bold text-base hover:bg-amber-800 transition-all hover:scale-[1.01] shadow-lg"
+              className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold text-base transition-all hover:scale-[1.01] shadow-lg"
+              style={{ backgroundColor: c('accent'), color: c('accent-text') }}
               data-testid="form-submit"
             >
               <Send size={18} /> Send forespørsel
@@ -293,20 +324,20 @@ export const StudentLanding = () => {
       <section className="bg-white border-t border-stone-200">
         <div className="max-w-5xl mx-auto px-4 py-14 sm:py-20 grid md:grid-cols-2 gap-10 items-center">
           <div>
-            <h2 className="text-3xl sm:text-4xl font-black mb-3">Vi ligger her</h2>
+            <h2 className="text-3xl sm:text-4xl font-black mb-3 text-stone-900">Vi ligger her</h2>
             <div className="flex items-start gap-3 text-stone-700 mb-2">
-              <MapPin size={20} className="text-amber-700 flex-shrink-0 mt-0.5" />
+              <MapPin size={20} style={{ color: c('accent') }} className="flex-shrink-0 mt-0.5" />
               <div>
                 <div className="font-semibold">{data.klinikk.adresse}</div>
                 <div className="text-sm text-stone-500 mt-1">{data.klinikk.geo_tekst}</div>
               </div>
             </div>
             <div className="flex items-center gap-3 text-stone-700 mt-4">
-              <Clock size={20} className="text-amber-700 flex-shrink-0" />
+              <Clock size={20} style={{ color: c('accent') }} className="flex-shrink-0" />
               <span className="text-sm">Man–tor 08–16 · Fre 08–15</span>
             </div>
             <div className="flex items-center gap-3 text-stone-700 mt-2">
-              <Phone size={20} className="text-amber-700 flex-shrink-0" />
+              <Phone size={20} style={{ color: c('accent') }} className="flex-shrink-0" />
               <a href={`tel:${PHONE_TEL}`} className="text-sm font-semibold underline">{PHONE}</a>
             </div>
           </div>
@@ -332,14 +363,14 @@ export const StudentLanding = () => {
       <div className="md:hidden fixed bottom-3 left-3 right-3 z-30">
         <button
           onClick={() => scrollTo('bestill')}
-          className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-amber-700 text-white font-bold text-base shadow-2xl active:scale-[0.98] transition-all"
+          className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl font-bold text-base shadow-2xl active:scale-[0.98] transition-all"
+          style={{ backgroundColor: c('accent'), color: c('accent-text') }}
           data-testid="sticky-cta"
         >
           Bestill din time <span aria-hidden>→</span>
         </button>
       </div>
 
-      {/* Spacer for sticky CTA on mobile */}
       <div className="h-20 md:hidden" aria-hidden />
     </div>
   );

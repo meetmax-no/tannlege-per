@@ -12,6 +12,13 @@ const SCHEME_NAMES = {
   3: 'Lysgrønn',
 };
 
+const STUDENT_THEMES = {
+  1: { name: 'Bubblegum', accent: '#FF2E93' },
+  2: { name: 'Voltage',   accent: '#2563EB' },
+  3: { name: 'Honey',     accent: '#EA580C' },
+  4: { name: 'Emerald',   accent: '#059669' },
+};
+
 const STORAGE_KEY = 'tannlege-color-scheme';
 const STUDENT_STORAGE_KEY = 'tannlege-student-color-scheme';
 
@@ -74,14 +81,14 @@ export const ThemeProvider = ({ children }) => {
         applyScheme(final);
       }
 
-      // --- Student scheme ---
+      // --- Student scheme (4 themes: 1=Bubblegum, 2=Voltage, 3=Honey, 4=Emerald) ---
       if (configuredStudent === 0) {
         const saved = parseInt(localStorage.getItem(STUDENT_STORAGE_KEY) || '1', 10);
-        const initial = [1, 2, 3].includes(saved) ? saved : 1;
+        const initial = [1, 2, 3, 4].includes(saved) ? saved : 1;
         setIsStudentPreviewMode(true);
         setStudentSchemeState(initial);
       } else {
-        const final = [1, 2, 3].includes(configuredStudent) ? configuredStudent : 1;
+        const final = [1, 2, 3, 4].includes(configuredStudent) ? configuredStudent : 1;
         setIsStudentPreviewMode(false);
         setStudentSchemeState(final);
       }
@@ -105,7 +112,7 @@ export const ThemeProvider = ({ children }) => {
   };
 
   const setStudentScheme = (next) => {
-    if (![1, 2, 3].includes(next)) return;
+    if (![1, 2, 3, 4].includes(next)) return;
     setStudentSchemeState(next);
     if (isStudentPreviewMode) localStorage.setItem(STUDENT_STORAGE_KEY, String(next));
   };
@@ -129,4 +136,4 @@ export const ThemeProvider = ({ children }) => {
 
 export const useTheme = () => useContext(ThemeContext);
 
-export { SCHEME_NAMES, THEME_COLORS };
+export { SCHEME_NAMES, THEME_COLORS, STUDENT_THEMES };

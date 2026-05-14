@@ -22,8 +22,8 @@
     "rabatt_ovrig_kort": "15% rabatt på øvrig behandling",
     "venn_deal": {
       "tittel": "Ta med en venn",
-      "kort": "25% rabatt på øvrig behandling — for dere begge",
-      "forklaring": "Studentpris gir 15% rabatt på øvrig behandling. Kommer dere to sammen, blir det 25% rabatt — for hver av dere. Pakken på 950 kr forblir den samme."
+      "kort": "15% alene. 25% med en venn.",
+      "forklaring": "+10% ekstra rabatt for dere begge — bare ved å ta med en kompis. Pakken på 950 kr forblir den samme."
     },
     "slik_gjor_du": [
       { "steg": "1", "tittel": "Bestill time", "tekst": "Online eller på telefon — vi svarer raskt." },
