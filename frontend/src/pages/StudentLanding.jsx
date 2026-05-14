@@ -254,7 +254,7 @@ export const StudentLanding = () => {
           </div>
           <a
             href={`tel:${PHONE_TEL}`}
-            className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-full bg-amber-700 text-white font-bold hover:bg-amber-800 transition-colors"
+            className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-full bg-amber-700 text-white font-bold hover:bg-amber-800 transition-colors mx-auto sm:mx-0"
             data-testid="cta-akutt-ring"
           >
             <Phone size={16} /> Ring {data.akutt.telefon}
