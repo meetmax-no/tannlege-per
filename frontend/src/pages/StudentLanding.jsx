@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Phone, MapPin, ArrowLeft, Sparkles, Check, Clock, Users, Send, AlertCircle
@@ -6,6 +6,7 @@ import {
 import { toast } from 'sonner';
 import { useTheme } from '../context/ThemeContext';
 import { StudentThemePicker } from '../components/StudentThemePicker';
+import { useMetaTags } from '../hooks/use-meta-tags';
 
 const fallback = {
   headline: ['Tenner.', 'Studentbudsjett.', 'Done.'],
@@ -28,22 +29,53 @@ const PHONE_TEL = PHONE.replace(/\s/g, '');
 
 export const StudentLanding = () => {
   const [data, setData] = useState(fallback);
+  const { studentScheme } = useTheme();
+
+  // Les UTM-parametere fra URL én gang (sporer hvor besøkende kom fra)
+  const utm = useMemo(() => {
+    if (typeof window === 'undefined') return {};
+    const p = new URLSearchParams(window.location.search);
+    return {
+      source: p.get('utm_source') || '',
+      medium: p.get('utm_medium') || '',
+      campaign: p.get('utm_campaign') || '',
+    };
+  }, []);
+
+  // Pre-fyll melding med kildeinfo hvis tilstede
+  const initialMelding = utm.source
+    ? `Studenttilbud (950,–) — ønsker å bestille time. (Kilde: ${[utm.source, utm.medium, utm.campaign].filter(Boolean).join(' · ')})`
+    : 'Studenttilbud (950,–) — ønsker å bestille time.';
+
   const [form, setForm] = useState({
     navn: '',
     telefon: '',
-    melding: 'Studenttilbud (950,–) — ønsker å bestille time.'
+    melding: initialMelding
   });
-  const { studentScheme } = useTheme();
+
+  // Oppdater Open Graph meta-tags for student-siden (for sosiale delinger)
+  useMetaTags({
+    title: 'Studenttilbud 950,– | Tannlegene Måreid',
+    description: 'Sjekka. Røntga. Pussa. Komplett tannsjekk for studenter — 950 kr. Ta med en venn → 25% rabatt på øvrig behandling for begge.',
+    image: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1200&h=630&fit=crop&q=85',
+    url: 'https://per-tannlege.vercel.app/student',
+  });
 
   useEffect(() => {
-    document.title = 'Studenttilbud 950,– | Tannlegene Måreid';
     fetch('/data/priser-student.json', { cache: 'no-store' })
       .then((r) => r.json())
       .then((d) => { if (d && d.landing) setData({ ...fallback, ...d.landing }); })
       .catch(() => {});
     document.documentElement.style.scrollBehavior = 'smooth';
+
+    // Logg QR-besøk for debugging (kan kobles på analytics senere)
+    if (utm.source === 'qr') {
+      // eslint-disable-next-line no-console
+      console.info('[QR] Besøk fra QR-plakat:', utm);
+    }
+
     return () => { document.documentElement.style.scrollBehavior = ''; };
-  }, []);
+  }, [utm]);
 
   const scrollTo = (id) => {
     const el = document.getElementById(id);
@@ -59,7 +91,7 @@ export const StudentLanding = () => {
     toast.success('Takk! Vi tar kontakt så snart vi kan.', {
       description: 'Husk å ha studentbevis klart når du kommer.'
     });
-    setForm({ navn: '', telefon: '', melding: 'Studenttilbud (950,–) — ønsker å bestille time.' });
+    setForm({ navn: '', telefon: '', melding: initialMelding });
   };
 
   // Inline-style shorthand

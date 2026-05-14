@@ -5,6 +5,8 @@ import { useTheme, STUDENT_THEMES } from '../context/ThemeContext';
 
 const POSTER_URL = 'per-tannlege.vercel.app/student';
 const POSTER_URL_FULL = 'https://per-tannlege.vercel.app/student';
+// QR peker til URL med UTM-parametere for sporing (vises ikke for besøkende)
+const POSTER_QR_URL = `${POSTER_URL_FULL}?utm_source=qr&utm_medium=poster&utm_campaign=studenttilbud-akp`;
 
 const QR_API = 'https://api.qrserver.com/v1/create-qr-code/';
 
@@ -23,7 +25,7 @@ export const StudentPoster = () => {
   }, []);
 
   // QR-kode med stor størrelse og høy feilkorreksjon for plakat
-  const qrSrc = `${QR_API}?data=${encodeURIComponent(POSTER_URL_FULL)}&size=800x800&ecc=H&margin=2`;
+  const qrSrc = `${QR_API}?data=${encodeURIComponent(POSTER_QR_URL)}&size=800x800&ecc=H&margin=2`;
 
   const handlePrint = () => window.print();
   const pickTheme = (id) => {
