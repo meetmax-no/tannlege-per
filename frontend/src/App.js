@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 import "./App.css";
 import { ThemeProvider } from "./context/ThemeContext";
 import { HomePage } from "./pages/HomePage";
@@ -18,6 +19,7 @@ function App() {
             <Route path="/student/plakat" element={<StudentPoster />} />
           </Routes>
           <Toaster />
+          <Analytics />
         </div>
       </BrowserRouter>
     </ThemeProvider>
