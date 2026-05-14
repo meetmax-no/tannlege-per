@@ -111,7 +111,7 @@ export const StudentLanding = () => {
             <Sparkles size={12} /> Studenttilbud
           </div>
 
-          <h1 className="text-[12vw] sm:text-7xl md:text-8xl font-black leading-[0.95] tracking-tight">
+          <h1 className="text-[10vw] sm:text-7xl md:text-8xl font-black leading-[0.95] tracking-tight">
             {data.headline.map((line, i) => (
               <span
                 key={i}
