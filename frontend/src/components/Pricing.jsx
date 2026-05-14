@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Accordion,
   AccordionContent,
@@ -177,6 +178,15 @@ export const Pricing = () => {
                   {studentOffer.merknad}
                 </p>
               )}
+              <div className="mt-5">
+                <Link
+                  to="/student?utm_source=hovedside&utm_medium=link&utm_campaign=studenttilbud-akp"
+                  className="inline-flex items-center gap-1 text-blue-800 font-semibold underline underline-offset-4 hover:text-blue-900 hover:underline-offset-2 transition-all"
+                  data-testid="link-mer-studenttilbud"
+                >
+                  Mer om studenttilbud <span aria-hidden>→</span>
+                </Link>
+              </div>
             </div>
           </div>
         )}
