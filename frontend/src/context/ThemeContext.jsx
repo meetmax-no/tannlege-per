@@ -13,11 +13,15 @@ const SCHEME_NAMES = {
 };
 
 const STORAGE_KEY = 'tannlege-color-scheme';
+const STUDENT_STORAGE_KEY = 'tannlege-student-color-scheme';
 
 const ThemeContext = createContext({
   scheme: 1,
   setScheme: () => {},
   isPreviewMode: false,
+  studentScheme: 1,
+  setStudentScheme: () => {},
+  isStudentPreviewMode: false,
   loaded: false,
 });
 
@@ -33,6 +37,8 @@ const applyScheme = (scheme) => {
 export const ThemeProvider = ({ children }) => {
   const [scheme, setSchemeState] = useState(1);
   const [isPreviewMode, setIsPreviewMode] = useState(false);
+  const [studentScheme, setStudentSchemeState] = useState(1);
+  const [isStudentPreviewMode, setIsStudentPreviewMode] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -40,22 +46,22 @@ export const ThemeProvider = ({ children }) => {
 
     const init = async () => {
       let configured = 1;
+      let configuredStudent = 0;
       try {
         const res = await fetch('/data/default.json', { cache: 'no-store' });
         if (res.ok) {
           const data = await res.json();
-          if (typeof data.colorScheme === 'number') {
-            configured = data.colorScheme;
-          }
+          if (typeof data.colorScheme === 'number') configured = data.colorScheme;
+          if (typeof data.studentColorScheme === 'number') configuredStudent = data.studentColorScheme;
         }
       } catch (e) {
-        // fall back to default
+        // fall back
       }
 
       if (!mounted) return;
 
+      // --- Main scheme ---
       if (configured === 0) {
-        // Preview mode — read localStorage, fallback to 1
         const saved = parseInt(localStorage.getItem(STORAGE_KEY) || '1', 10);
         const initial = [1, 2, 3].includes(saved) ? saved : 1;
         setIsPreviewMode(true);
@@ -67,10 +73,22 @@ export const ThemeProvider = ({ children }) => {
         setSchemeState(final);
         applyScheme(final);
       }
+
+      // --- Student scheme ---
+      if (configuredStudent === 0) {
+        const saved = parseInt(localStorage.getItem(STUDENT_STORAGE_KEY) || '1', 10);
+        const initial = [1, 2, 3].includes(saved) ? saved : 1;
+        setIsStudentPreviewMode(true);
+        setStudentSchemeState(initial);
+      } else {
+        const final = [1, 2, 3].includes(configuredStudent) ? configuredStudent : 1;
+        setIsStudentPreviewMode(false);
+        setStudentSchemeState(final);
+      }
+
       setLoaded(true);
     };
 
-    // Apply default immediately to avoid FOUC
     applyScheme(1);
     init();
 
@@ -83,13 +101,27 @@ export const ThemeProvider = ({ children }) => {
     if (![1, 2, 3].includes(next)) return;
     setSchemeState(next);
     applyScheme(next);
-    if (isPreviewMode) {
-      localStorage.setItem(STORAGE_KEY, String(next));
-    }
+    if (isPreviewMode) localStorage.setItem(STORAGE_KEY, String(next));
+  };
+
+  const setStudentScheme = (next) => {
+    if (![1, 2, 3].includes(next)) return;
+    setStudentSchemeState(next);
+    if (isStudentPreviewMode) localStorage.setItem(STUDENT_STORAGE_KEY, String(next));
   };
 
   return (
-    <ThemeContext.Provider value={{ scheme, setScheme, isPreviewMode, loaded }}>
+    <ThemeContext.Provider
+      value={{
+        scheme,
+        setScheme,
+        isPreviewMode,
+        studentScheme,
+        setStudentScheme,
+        isStudentPreviewMode,
+        loaded,
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );

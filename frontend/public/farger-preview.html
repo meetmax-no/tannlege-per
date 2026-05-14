@@ -120,24 +120,50 @@
 <body>
 <div class="wrap">
   <h1>🎨 Hero-overlay tuner</h1>
-  <p class="sub">Dra på glidebryterne for å finne riktig intensitet på Hero-bildet for blå og grønn. Brun vises som referanse.</p>
+  <p class="sub">Dra på glidebryterne for å finne riktig intensitet på Hero-bildet for hvert tema. Verdiene kopieres inn i koden etter at du er fornøyd.</p>
 
-  <!-- BROWN reference -->
+  <!-- BROWN -->
   <div class="panel" id="panel-1">
     <div class="panel-head">
       <span class="dot" style="background:#D97706"></span>
-      <span class="panel-title">Brun (referanse — dagens design)</span>
-      <span class="panel-meta">rgba(120,53,15,0.90) → rgba(146,64,14,0.80) → transparent</span>
+      <span class="panel-title">Brun — finjuster overlay</span>
     </div>
-    <div class="hero">
-      <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1920&q=80" alt="">
-      <div class="overlay" style="background: linear-gradient(to right, rgba(120,53,15,0.90) 0%, rgba(146,64,14,0.80) 50%, rgba(120,53,15,0) 100%);"></div>
-      <div class="content">
-        <h2>Din tannhelse i trygge hender</h2>
-        <p>Sentralt beliggende allmennpraksis med fokus på hyggelig og trygg atmosfære.</p>
-        <div class="btns">
-          <button class="btn light" style="color:#78350F">Bestill time</button>
-          <button class="btn brand" style="background:#D97706">📞 Ring oss</button>
+    <div class="grid">
+      <div class="controls" data-target="brown">
+        <div class="preset-row">
+          <button class="preset" data-preset="brown-light">Lett</button>
+          <button class="preset" data-preset="brown-medium">Medium ★</button>
+          <button class="preset" data-preset="brown-strong">Sterk</button>
+        </div>
+        <div class="control">
+          <label>«From» opacity (venstre side) <span class="val" data-val="from"></span></label>
+          <input type="range" min="0" max="100" data-key="from">
+        </div>
+        <div class="control">
+          <label>«Via» opacity (midten) <span class="val" data-val="via"></span></label>
+          <input type="range" min="0" max="100" data-key="via">
+        </div>
+        <div class="control">
+          <label>«To» opacity (høyre side) <span class="val" data-val="to"></span></label>
+          <input type="range" min="0" max="100" data-key="to">
+        </div>
+        <div class="control">
+          <label>Mørkhet (hue) <span class="val" data-val="shade"></span></label>
+          <input type="range" min="600" max="900" step="100" data-key="shade">
+        </div>
+        <div class="css-out" data-out>—</div>
+        <button class="copy-btn" data-copy>Kopier rgba-verdier</button>
+      </div>
+      <div class="hero">
+        <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1920&q=80" alt="">
+        <div class="overlay" data-overlay></div>
+        <div class="content">
+          <h2>Din tannhelse i trygge hender</h2>
+          <p>Sentralt beliggende allmennpraksis med fokus på hyggelig og trygg atmosfære.</p>
+          <div class="btns">
+            <button class="btn light" data-btn-light>Bestill time</button>
+            <button class="btn brand" data-btn-brand>📞 Ring oss</button>
+          </div>
         </div>
       </div>
     </div>
@@ -243,8 +269,14 @@
 </div>
 
 <script>
-  // Shade palettes (Tailwind sky / emerald)
+  // Shade palettes (Tailwind amber / sky / emerald)
   const SHADES = {
+    brown: {
+      600: [217, 119, 6],
+      700: [180, 83, 9],
+      800: [146, 64, 14],
+      900: [120, 53, 15]
+    },
     blue: {
       600: [2, 132, 199],
       700: [3, 105, 161],
@@ -261,6 +293,9 @@
 
   // Presets (from / via / to / shade)
   const PRESETS = {
+    'brown-light':  { from: 65, via: 45, to: 0,  shade: 800 },
+    'brown-medium': { from: 75, via: 55, to: 0,  shade: 800 },
+    'brown-strong': { from: 90, via: 80, to: 0,  shade: 900 },
     'blue-light':   { from: 60, via: 40, to: 0,  shade: 700 },
     'blue-medium':  { from: 75, via: 55, to: 0,  shade: 700 },
     'blue-strong':  { from: 90, via: 80, to: 0,  shade: 900 },
@@ -270,6 +305,7 @@
   };
 
   const HUE_META = {
+    brown: { meta: '#D97706', dark: '#78350F', light: '#FFFBEB' },
     blue:  { meta: '#0284C7', dark: '#0369A1', light: '#0C4A6E' },
     green: { meta: '#059669', dark: '#047857', light: '#064E3B' }
   };
@@ -311,8 +347,9 @@
       });
 
       // CSS output (for index.css)
+      const labels = { brown: 'Brun', blue: 'Lysblå', green: 'Lysgrønn' };
       out.textContent =
-`/* Desktop overlay for ${target === 'blue' ? 'Lysblå' : 'Lysgrønn'} */
+`/* Desktop overlay for ${labels[target]} */
 --hero-gradient-desktop: linear-gradient(
     to right,
     ${fromColor} 0%,

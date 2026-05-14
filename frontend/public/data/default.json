@@ -3,7 +3,8 @@
     "client": "Per Måreid",
     "createdAt": "2026-05-01",
     "createdBy": "Ko | Do · Consult",
-    "notes": "colorScheme: 0 = preview (knapp i header), 1 = brun, 2 = lysblå, 3 = lysgrønn"
+    "notes": "colorScheme: 0 = preview (knapp i header), 1 = brun, 2 = lysblå, 3 = lysgrønn. studentColorScheme: 0 = vis 3-farger-velger på student-siden, 1/2/3 = lås til en bestemt farge"
   },
-  "colorScheme": 0
+  "colorScheme": 0,
+  "studentColorScheme": 0
 }

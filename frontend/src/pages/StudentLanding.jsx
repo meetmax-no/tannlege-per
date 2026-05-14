@@ -4,6 +4,8 @@ import {
   Phone, MapPin, ArrowLeft, Sparkles, Check, Clock, Users, Send, AlertCircle
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useTheme } from '../context/ThemeContext';
+import { StudentThemePicker } from '../components/StudentThemePicker';
 
 const fallback = {
   headline: ['Tenner.', 'Studentbudsjett.', 'Done.'],
@@ -27,6 +29,7 @@ const PHONE_TEL = PHONE.replace(/\s/g, '');
 export const StudentLanding = () => {
   const [data, setData] = useState(fallback);
   const [form, setForm] = useState({ navn: '', telefon: '', melding: 'Studenttilbud (950,–) — ønsker å bestille time.' });
+  const { studentScheme } = useTheme();
 
   useEffect(() => {
     document.title = 'Studenttilbud 950,– | Tannlegene Måreid';
@@ -60,10 +63,13 @@ export const StudentLanding = () => {
   };
 
   return (
-    <div className="min-h-screen bg-stone-50 text-stone-900 selection:bg-amber-200 selection:text-amber-900">
+    <div
+      className="min-h-screen bg-stone-50 text-stone-900 selection:bg-amber-200 selection:text-amber-900"
+      data-color-scheme={String(studentScheme)}
+    >
       {/* Mini header */}
       <header className="sticky top-0 z-40 backdrop-blur-md bg-white/80 border-b border-stone-200">
-        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
           <Link
             to="/"
             className="flex items-center gap-2 text-sm font-medium text-stone-600 hover:text-amber-700 transition-colors"
@@ -71,7 +77,10 @@ export const StudentLanding = () => {
           >
             <ArrowLeft size={16} /> <span>Hovedsiden</span>
           </Link>
-          <span className="text-sm font-bold text-stone-900">Tannlegene Måreid</span>
+          <div className="flex items-center gap-4">
+            <StudentThemePicker />
+            <span className="text-sm font-bold text-stone-900 hidden sm:inline">Tannlegene Måreid</span>
+          </div>
         </div>
       </header>
 
