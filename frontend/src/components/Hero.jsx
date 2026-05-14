@@ -18,10 +18,16 @@ export const Hero = () => {
           alt="Modern dental clinic"
           className="w-full h-full object-cover object-center md:object-left"
         />
-        {/* Mobile gradient - lighter and from bottom */}
-        <div className="absolute inset-0 bg-gradient-to-t from-amber-900/65 via-amber-800/45 to-amber-900/20 md:hidden"></div>
-        {/* Desktop gradient - original */}
-        <div className="absolute inset-0 bg-gradient-to-r from-amber-900/90 via-amber-800/80 to-transparent hidden md:block"></div>
+        {/* Mobile gradient - bruker palett-spesifikk overlay-variabel */}
+        <div
+          className="absolute inset-0 md:hidden"
+          style={{ background: 'var(--hero-gradient-mobile)' }}
+        ></div>
+        {/* Desktop gradient - bruker palett-spesifikk overlay-variabel */}
+        <div
+          className="absolute inset-0 hidden md:block"
+          style={{ background: 'var(--hero-gradient-desktop)' }}
+        ></div>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
