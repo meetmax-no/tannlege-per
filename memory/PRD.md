@@ -176,6 +176,39 @@ Bygge en moderne og minimalistisk one-page nettside for tannlege Per Eivind Mår
 - Ryddet `default.json` — fjernet ikke-funksjonell `notifications`-seksjon
 - Bedre feildiagnose: 502-svar inkluderer per-kanal-detaljer i `channels`-feltet
 
+### ✅ Fase 14: Telegram kontaktkort via sendContact (15. mai 2026)
+- Oppdaget at Telegram Bot API avviser `tel:`/`sms:`-URLer i `inline_keyboard` (400 Bad Request)
+- Oppdaget at Telegram fjerner stille `<a href="tel:...">`-lenker i meldingstekst
+- Løsning: bruk `sendContact` API som sender et ekte kontaktkort med vCard
+- Per henvendelse sendes TO meldinger:
+  1. HTML-tekstmelding med alle detaljer + UTM-kilde
+  2. Kontaktkort med klikkbar Ring-knapp og «Add Contact» som lagrer pasienten med melding i NOTE-feltet på Per sin mobil
+- Avatar-initialer fra `first_name` + `last_name` (rene navn, ingen emoji/tags) for konsekvent visning på tvers av iOS/Android/Mac/Windows-klienter
+- Norsk telefonnummer auto-konverteres til E.164 (`+4792060612`) før kontaktkort sendes
+
+### ✅ Fase 15: Tema-styrt e-post (15. mai 2026)
+- Ny `/api/_lib/theme.mjs` — leser `colorScheme` fra `default.json` (1-min cache)
+- 3 paletter som matcher CSS-variablene (`--brand-*`) i `index.css`: brun, lysblå, lysgrønn
+- Mail-mal bygd opp pent: pen header, accent-bordered melding-boks, Ring tilbake-knapp, footer
+- 3 forhåndsvisning-filer i `frontend/public/`: `email-preview-{brun,lysbla,lysgronn}.html`
+- Brun (1) er default når `colorScheme=0` eller filen ikke kan leses
+
+### ✅ Fase 16: Resend live (15. mai 2026)
+- Resend-konto opprettet (eier: `firma@kodoconsult.no`)
+- API-key generert, satt som `RESEND_API_KEY` i Vercel
+- Beslutning: bruk `kodoconsult.no` som permanent send-domene (Per slipper DNS-tilgang)
+- Domene-verifisering hos Resend planlagt etter at Webhuset DNS-sperre utløper (3t)
+- Avslørt blocker: `onboarding@resend.dev` blokkeres av Webhusets spam-filter (resend.dev står på spamrl.com blocklist)
+- Mail-koden 100% klar — sender umiddelbart når `kodoconsult.no` er verifisert i Resend
+
+### ✅ Fase 17: MongoDB Atlas live (15. mai 2026)
+- M0 Free cluster opprettet («KoDo-PM» på AWS Frankfurt)
+- Database-user `kodo_pm_app` med autogenerert passord
+- Network Access: `0.0.0.0/0` (Vercel serverless IPs)
+- Env-vars i Vercel: `MONGODB_URI`, `MONGODB_DB=tannlege-per`, `MONGODB_ENABLED=true`
+- **VERIFISERT** — første henvendelse lagret kl. 11:52:12.465Z med alle felter:
+  `name`, `phone`, `email`, `message`, `source`, `utm` (nested), `createdAt`, `userAgent`
+
 ---
 
 ## Prioritized Backlog
@@ -189,9 +222,21 @@ Bygge en moderne og minimalistisk one-page nettside for tannlege Per Eivind Mår
 - [x] Backend-kode lagd og testet lokalt (15. mai 2026)
 - [x] Telegram Bot opprettet (BotFather) + Group Chat-ID `-5218791898` hentet (15. mai 2026)
 - [x] Env-vars `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `TELEGRAM_ENABLED=true` satt i Vercel (15. mai 2026)
-- [x] Deploy + E2E-test mot produksjon — Telegram-varsel mottatt på 1 sek (15. mai 2026)
-- [ ] MongoDB Atlas M0 opprettet + connection string + `MONGODB_ENABLED=true` (utestående)
-- [ ] Resend-konto (egen for Per) + API-key + `EMAIL_ENABLED=true` (utestående, venter på Resend-konto)
+- [x] Telegram E2E-test mot produksjon — varsel mottatt på 1 sek (15. mai 2026)
+- [x] Telegram-kontaktkort via `sendContact` API m/ vCard (15. mai 2026)
+- [x] MongoDB Atlas M0 opprettet «KoDo-PM» (Frankfurt) (15. mai 2026)
+- [x] `MONGODB_URI`, `MONGODB_DB`, `MONGODB_ENABLED=true` satt i Vercel (15. mai 2026)
+- [x] MongoDB E2E-test — første henvendelse lagret med alle felter (15. mai 2026 kl. 11:52)
+- [x] Resend-konto opprettet med `firma@kodoconsult.no` (15. mai 2026)
+- [x] `RESEND_API_KEY`, `RESEND_TO_EMAIL`, `EMAIL_ENABLED=true` satt i Vercel (15. mai 2026)
+- [ ] Verifisere `kodoconsult.no` hos Resend (blokkert: Webhuset DNS-sperre 3t)
+- [ ] Bytte `RESEND_FROM_EMAIL=noreply@kodoconsult.no` etter verifisering
+- [ ] E-post E2E-test etter DNS-verifisering
+
+### P1 — Sikkerhets-rotering
+- [ ] **Roter MongoDB-passordet** — connection string ble eksponert i chat-historikk under setup
+  - Atlas → Database Access → kodo_pm_app → Edit Password → Autogenerate
+  - Oppdater `MONGODB_URI` i Vercel med ny streng → Redeploy
 
 ### P1 — Future Enhancements
 - [ ] Tannlegeper.no DNS-verifisering hos Resend → bytte `RESEND_FROM_EMAIL`
@@ -211,25 +256,33 @@ Bygge en moderne og minimalistisk one-page nettside for tannlege Per Eivind Mår
 ---
 
 ## Next Action Items
-1. **MongoDB Atlas-oppsett** — gratis M0-cluster, legg inn `MONGODB_URI` + `MONGODB_ENABLED=true` i Vercel for permanent lagring av henvendelser
-2. **Resend-konto for Per** — egen konto med Per sin e-post, gir `RESEND_API_KEY` + `RESEND_TO_EMAIL` (foreløpig `onboarding@resend.dev` til DNS er klart)
-3. **Tannlegeper.no DNS** — når Per gir tilgang: verifiser domene hos Resend, bytt `RESEND_FROM_EMAIL` til `kontakt@tannlegeper.no`, sett `EMAIL_ENABLED=true`
-4. **Vente på tilbakemelding** fra Per + valg av farge/student-tema
-5. **(Optional)** Telegram `/liste`-kommando hvis Per spør om historikk-eksport
+1. **Webhuset DNS-sperre utløper** (3t) → logg inn → legg til Resend DNS-records for kodoconsult.no
+2. **Verifiser kodoconsult.no hos Resend** → bytte `RESEND_FROM_EMAIL=noreply@kodoconsult.no` i Vercel → Redeploy → E2E-test e-post
+3. **Roter MongoDB-passord** (sikkerhet — connection string ble eksponert under oppsett)
+4. **(Optional)** Pent fra-navn: `Tannlegene Måreid <noreply@kodoconsult.no>`
+5. **Vente på tilbakemelding** fra Per + valg av farge/student-tema
+6. **(Optional)** Telegram `/liste`-kommando hvis Per spør om historikk-eksport
 
 ---
 
-## Current Production Status (15. mai 2026)
+## Current Production Status (15. mai 2026 — kveld)
 
 | Komponent | Status |
 |---|---|
 | Frontend on Vercel | 🟢 LIVE |
 | Telegram-varsler | 🟢 AKTIV — tekstmelding + kontaktkort m/ Ring-knapp |
-| MongoDB-lagring | ⚪ KLAR I KODE — env-vars utestående |
-| E-post (Resend) | ⚪ KLAR I KODE — Resend-konto + DNS utestående |
+| MongoDB-lagring | 🟢 AKTIV — alle henvendelser lagres med navn/tlf/melding/UTM/userAgent/timestamp |
+| E-post (Resend) | 🟡 KODE LIVE — venter på `kodoconsult.no` DNS-verifisering hos Resend |
 | Spam-beskyttelse | 🟢 Honeypot aktiv på begge skjemaer |
 | Vercel Analytics | 🟢 AKTIV |
 
-**E2E-flow bekreftet:** Kontaktskjema (`/` og `/student`) → POST `/api/contact` → To Telegram-meldinger i klinikkgruppen innen 1-2 sek:
-1. Tekstmelding med alle detaljer + UTM-kilde
-2. Kontaktkort «MA — Michael Aagreen» med ett-trykks Ring-knapp og «Add Contact» som lagrer pasienten med melding i NOTE-feltet på Per sin mobil
+**E2E-flow bekreftet:** Kontaktskjema (`/` og `/student`) → POST `/api/contact` → (1) lagring til Atlas `tannlege-per.contacts` (2) Telegram-tekstmelding + kontaktkort i klinikkgruppen — alt innen 1-2 sek.
+
+**Verifisert henvendelse 15. mai 11:52:** Document `_id: 6a0708ede779024fdec385cf` i contacts-collection inneholder navn, telefon, e-post, melding, source, utm (nested object), createdAt og userAgent. Telegram-meldingene kom samtidig.
+
+### Arkitektur-beslutning: send-domene
+Vi bruker **`kodoconsult.no`** som permanent send-domene istedet for å verifisere `tannlegeper.no`. Fordeler:
+- Per trenger ikke gi DNS-tilgang
+- Sentralt forvaltet send-oppsett kan brukes for flere klienter senere
+- `replyTo` settes til pasientens e-post → Per kan svare direkte
+- Hvis ønskelig senere: enkelt å legge til verifisering av tannlegeper.no i tillegg

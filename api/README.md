@@ -4,11 +4,12 @@ Dette dokumentet beskriver hvordan kontaktskjemaet på tannlegeper.no er koblet
 opp mot Telegram, Resend (e-post) og MongoDB Atlas — alt via Vercel Serverless
 Functions, ingen ekstern backend nødvendig.
 
-## Status (15. mai 2026)
+## Status (15. mai 2026 — kveld)
 
-- 🟢 Telegram — **AKTIV i produksjon**
-- ⚪ MongoDB — kode klar, venter på Atlas-oppsett + env-vars
-- ⚪ E-post (Resend) — kode klar, venter på Resend-konto + DNS-verifisering
+- 🟢 Telegram — **AKTIV i produksjon** (tekstmelding + kontaktkort med Ring-knapp)
+- 🟢 MongoDB — **AKTIV i produksjon** (alle henvendelser lagres i `tannlege-per.contacts`)
+- 🟡 E-post (Resend) — kode live, venter på `kodoconsult.no` DNS-verifisering hos Resend
+- 🎨 Mail-design følger automatisk valgt `colorScheme` i `default.json` (brun/lysblå/lysgrønn)
 
 ## Arkitektur
 
