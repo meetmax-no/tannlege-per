@@ -15,7 +15,11 @@ function buildMessage(payload) {
   if (source) lines.push(`<i>Fra: ${escapeHtml(source)}</i>`);
   lines.push('');
   lines.push(`<b>Navn:</b> ${escapeHtml(name)}`);
-  if (phone) lines.push(`<b>Telefon:</b> ${escapeHtml(phone)}`);
+  if (phone) {
+    // Tlf som phone_number-entitet via <a href="tel:..."> aksepteres ikke av Telegram,
+    // men ren tekst blir auto-detektert som klikkbart nummer på Telegram-mobil.
+    lines.push(`<b>Telefon:</b> ${escapeHtml(phone)}`);
+  }
   if (email) lines.push(`<b>E-post:</b> ${escapeHtml(email)}`);
   if (message) {
     lines.push('');
@@ -30,22 +34,8 @@ function buildMessage(payload) {
   return lines.join('\n');
 }
 
-function buildKeyboard(phone) {
-  if (!phone) return undefined;
-  const tel = String(phone).replace(/\s/g, '');
-  return {
-    inline_keyboard: [
-      [
-        { text: '📞 Ring tilbake', url: `tel:${tel}` },
-        { text: '💬 Send SMS', url: `sms:${tel}` },
-      ],
-    ],
-  };
-}
-
 export async function sendTelegramNotification(config, payload) {
   const text = buildMessage(payload);
-  const reply_markup = buildKeyboard(payload.phone);
 
   const body = {
     chat_id: config.chatId,
@@ -53,7 +43,6 @@ export async function sendTelegramNotification(config, payload) {
     parse_mode: 'HTML',
     disable_web_page_preview: true,
   };
-  if (reply_markup) body.reply_markup = reply_markup;
 
   const url = `https://api.telegram.org/bot${config.token}/sendMessage`;
   const res = await fetch(url, {
