@@ -147,7 +147,12 @@ Bygge en moderne og minimalistisk one-page nettside for tannlege Per Eivind Mår
 ### ✅ Fase 12: Kontaktskjema-backend via Vercel Serverless (15. mai 2026)
 - `/api/contact.mjs` + `/api/_lib/` (config, telegram, resend, mongo)
 - POST endpoint med validering, honeypot, og parallell varsling til alle aktive kanaler
-- Telegram-varsel med HTML-format + auto-formattering av norske telefonnumre til `+47 XX XX XX XX` (Telegram-mobilappen auto-detekterer da nummeret som klikkbart for ringing/SMS)
+- **Telegram-varsel sender TO meldinger per henvendelse:**
+  1. Tekstmelding (HTML) med navn, telefon, e-post, melding, UTM-kilde
+  2. `sendContact`-kontaktkort med klikkbar Ring/Lagre-knapp + vCard
+- Norsk telefonnummer auto-formattert til `+47 XX XX XX XX` i tekst + E.164 (`+4792060612`) i kontaktkort
+- vCard inkluderer melding i NOTE-feltet → lagres automatisk når Per trykker «Add Contact»
+- Kontaktkort-navn holdes rent (kun ekte for-/etternavn) → konsekvente avatar-initialer på tvers av Telegram-klienter
 - Resend-integrasjon (basert på bankboks-page-mønster) — klar, men aktiveres først når DNS er verifisert
 - MongoDB Atlas-lagring med connection caching for serverless — klar, ikke aktivert ennå
 - `Contact.jsx` + `StudentLanding.jsx` koblet på ekte API (mocks fjernet)
@@ -156,6 +161,13 @@ Bygge en moderne og minimalistisk one-page nettside for tannlege Per Eivind Mår
 - 20/20 + 8/8 lokale tester passert (`tests/test_contact_api.mjs`, `tests/test_phone_format.mjs`)
 - `vercel.json` rewrite oppdatert til å ekskludere `/api/*` fra SPA-fallback
 - **LIVE i produksjon** (15. mai 2026) — Telegram-varsler virker både fra `/` og `/student`
+
+### 🔍 Tekniske oppdagelser (Telegram Bot API)
+- Telegram avviser `tel:`/`sms:`-URLer i `inline_keyboard`-knapper (400 Bad Request)
+- Telegram fjerner stille `<a href="tel:...">`-lenker i meldingstekst (godtas men strippes)
+- Telegram auto-detekterer KUN internasjonale numre med + og fungerer kun på mobil-klienter
+- Eneste pålitelige løsning for ett-trykks-oppringing: `sendContact` API med E.164-format
+- Avatar-initialer hentes fra `first_name` + `last_name` — alt annet (emoji, tags) i disse feltene gir uforutsigbare resultater på tvers av klienter
 
 ### ✅ Fase 13: Eksplisitt env-var-styring (15. mai 2026)
 - Fjernet skjult fallback-logikk i `config.mjs` — alle kanaler krever nå eksplisitt `*_ENABLED=true`
@@ -212,10 +224,12 @@ Bygge en moderne og minimalistisk one-page nettside for tannlege Per Eivind Mår
 | Komponent | Status |
 |---|---|
 | Frontend on Vercel | 🟢 LIVE |
-| Telegram-varsler | 🟢 AKTIV — `TELEGRAM_ENABLED=true`, gruppe `-5218791898` |
+| Telegram-varsler | 🟢 AKTIV — tekstmelding + kontaktkort m/ Ring-knapp |
 | MongoDB-lagring | ⚪ KLAR I KODE — env-vars utestående |
 | E-post (Resend) | ⚪ KLAR I KODE — Resend-konto + DNS utestående |
 | Spam-beskyttelse | 🟢 Honeypot aktiv på begge skjemaer |
 | Vercel Analytics | 🟢 AKTIV |
 
-**E2E-flow bekreftet:** Kontaktskjema (`/` og `/student`) → POST `/api/contact` → Telegram-melding i klinikkgruppen innen 1 sek, med navn/telefon/melding/UTM og klikkbart `+47 XX XX XX XX`-nummer.
+**E2E-flow bekreftet:** Kontaktskjema (`/` og `/student`) → POST `/api/contact` → To Telegram-meldinger i klinikkgruppen innen 1-2 sek:
+1. Tekstmelding med alle detaljer + UTM-kilde
+2. Kontaktkort «MA — Michael Aagreen» med ett-trykks Ring-knapp og «Add Contact» som lagrer pasienten med melding i NOTE-feltet på Per sin mobil

@@ -25,9 +25,35 @@ Functions, ingen ekstern backend nødvendig.
 Filer:
 - `/api/contact.mjs` — POST handler + validering + honeypot + per-kanal feilrapportering
 - `/api/_lib/config.mjs` — Leser env-vars, eksplisitt `*_ENABLED=true`-regel
-- `/api/_lib/telegram.mjs` — Bot API call, HTML-format + norsk-tlf-auto-formattering
+- `/api/_lib/telegram.mjs` — Bot API: `sendMessage` (tekst) + `sendContact` (kontaktkort m/ vCard) + norsk-tlf-formattering til E.164
 - `/api/_lib/resend.mjs` — Resend SDK v4, HTML + text e-post
 - `/api/_lib/mongo.mjs` — MongoDB driver med connection caching for serverless
+
+## Telegram-melding (hva Per faktisk får)
+
+Per henvendelse sendes TO meldinger i gruppen:
+
+**1. Tekstmelding** (HTML-format)
+```
+🦷 Ny henvendelse
+Fra: hovedside
+
+Navn: Michael Leo Aagreen
+Telefon: +47 92 06 06 12
+E-post: firma@meetmax.no
+
+Melding:
+Jeg vil gjerne ha kaffe og en tannpuss
+
+📊 Kilde: qr · poster · studenttilbud-akp
+👇 Trykk på kontaktkortet under for å ringe
+```
+
+**2. Kontaktkort** (`sendContact` API)
+- Avatar med initialer (f.eks. «MA»)
+- Navn + telefon + (e-post på iOS/Android)
+- Innebygd «Ring»-knapp på mobil → starter samtale med ett trykk
+- «View Contact» / «Add Contact» → lagrer hele kortet inkl. melding i NOTE-feltet til Per sine mobilkontakter
 
 ## Aktiveringsregel
 
