@@ -117,7 +117,7 @@ export async function sendTelegramNotification(config, payload) {
     await telegramRequest(config.token, 'sendContact', {
       chat_id: config.chatId,
       phone_number: e164,
-      first_name: `🦷 ${first}`,
+      first_name: first || 'Pasient',
       last_name: last ? `${last}${tag}` : tag.trim() || undefined,
       vcard: vcardLines.join('\n'),
     });
