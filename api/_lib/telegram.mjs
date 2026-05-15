@@ -8,6 +8,38 @@ function escapeHtml(text) {
     .replace(/>/g, '&gt;');
 }
 
+// Normalisér norsk telefonnummer til internasjonalt format slik at
+// Telegram-mobilappen auto-detekterer det som et klikkbart telefonnummer.
+//   "92060612"        → "+47 92 06 06 12"
+//   "+47 92 06 06 12" → "+47 92 06 06 12"  (uendret)
+//   "004792060612"    → "+47 92 06 06 12"
+//   "+15551234567"    → "+15551234567"      (ikke-norsk, returneres uten formatering)
+export function formatPhone(input) {
+  if (!input) return '';
+  const raw = String(input).trim();
+  // Behold kun + og siffer
+  let digits = raw.replace(/[^\d+]/g, '');
+
+  // Konverter 00XX-prefix til +XX
+  if (digits.startsWith('00')) {
+    digits = '+' + digits.slice(2);
+  }
+
+  // 8 siffer uten landskode → anta norsk
+  if (/^\d{8}$/.test(digits)) {
+    digits = '+47' + digits;
+  }
+
+  // Format norske numre pent: +47 XX XX XX XX
+  if (/^\+47\d{8}$/.test(digits)) {
+    const n = digits.slice(3);
+    return `+47 ${n.slice(0, 2)} ${n.slice(2, 4)} ${n.slice(4, 6)} ${n.slice(6, 8)}`;
+  }
+
+  // Andre internasjonale numre — returner som de er (med +)
+  return digits;
+}
+
 function buildMessage(payload) {
   const { name, phone, email, message, source, utm } = payload;
   const lines = [];
@@ -16,9 +48,8 @@ function buildMessage(payload) {
   lines.push('');
   lines.push(`<b>Navn:</b> ${escapeHtml(name)}`);
   if (phone) {
-    // Tlf som phone_number-entitet via <a href="tel:..."> aksepteres ikke av Telegram,
-    // men ren tekst blir auto-detektert som klikkbart nummer på Telegram-mobil.
-    lines.push(`<b>Telefon:</b> ${escapeHtml(phone)}`);
+    // Format med +47-prefix → Telegram-mobil gjør tallet klikkbart for ringing/SMS
+    lines.push(`<b>Telefon:</b> ${escapeHtml(formatPhone(phone))}`);
   }
   if (email) lines.push(`<b>E-post:</b> ${escapeHtml(email)}`);
   if (message) {
