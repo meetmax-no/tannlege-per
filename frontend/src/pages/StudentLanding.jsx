@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { useTheme } from '../context/ThemeContext';
 import { StudentThemePicker } from '../components/StudentThemePicker';
 import { useMetaTags } from '../hooks/use-meta-tags';
+import { submitContact } from '../lib/contactApi';
 
 const fallback = {
   headline: ['Tenner.', 'Studentbudsjett.', 'Done.'],
@@ -50,8 +51,10 @@ export const StudentLanding = () => {
   const [form, setForm] = useState({
     navn: '',
     telefon: '',
-    melding: initialMelding
+    melding: initialMelding,
+    hp: '' // honeypot
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Oppdater Open Graph meta-tags for student-siden (for sosiale delinger)
   useMetaTags({
@@ -82,16 +85,36 @@ export const StudentLanding = () => {
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     if (!form.navn || !form.telefon) {
       toast.error('Fyll inn navn og telefon, så ringer vi deg.');
       return;
     }
-    toast.success('Takk! Vi tar kontakt så snart vi kan.', {
-      description: 'Husk å ha studentbevis klart når du kommer.'
+    setIsSubmitting(true);
+
+    const result = await submitContact({
+      name: form.navn,
+      phone: form.telefon,
+      message: form.melding,
+      hp: form.hp,
+      source: 'student',
+      utm,
     });
-    setForm({ navn: '', telefon: '', melding: initialMelding });
+
+    setIsSubmitting(false);
+
+    if (result.ok) {
+      toast.success('Takk! Vi tar kontakt så snart vi kan.', {
+        description: 'Husk å ha studentbevis klart når du kommer.'
+      });
+      setForm({ navn: '', telefon: '', melding: initialMelding, hp: '' });
+    } else {
+      toast.error(result.error, {
+        description: `Du kan også ringe oss på ${PHONE}.`,
+        duration: 8000,
+      });
+    }
   };
 
   // Inline-style shorthand
@@ -301,6 +324,16 @@ export const StudentLanding = () => {
           <p className="text-stone-500 mb-8">Fyll inn navn og telefon. Vi ringer deg tilbake.</p>
 
           <form onSubmit={onSubmit} className="space-y-4" data-testid="student-form">
+            {/* Honeypot — usynlig spam-felle */}
+            <input
+              type="text"
+              value={form.hp}
+              onChange={(e) => setForm({ ...form, hp: e.target.value })}
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              style={{ position: 'absolute', left: '-10000px', width: '1px', height: '1px', opacity: 0 }}
+            />
             <div>
               <label className="block text-sm font-bold mb-1.5 text-stone-900">Navn *</label>
               <input
@@ -339,11 +372,12 @@ export const StudentLanding = () => {
             </div>
             <button
               type="submit"
-              className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold text-base transition-all hover:scale-[1.01] shadow-lg"
+              disabled={isSubmitting}
+              className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold text-base transition-all hover:scale-[1.01] shadow-lg disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
               style={{ backgroundColor: c('accent'), color: c('accent-text') }}
               data-testid="form-submit"
             >
-              <Send size={18} /> Send forespørsel
+              <Send size={18} /> {isSubmitting ? 'Sender…' : 'Send forespørsel'}
             </button>
             <a
               href={`tel:${PHONE_TEL}`}

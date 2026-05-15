@@ -27,11 +27,15 @@ Bygge en moderne og minimalistisk one-page nettside for tannlege Per Eivind Mår
   - `/farger-preview.html` — Tuner for Hero-overlays
   - `/student-stilvalg.html` — Stilbibliotek (4 student-varianter)
 
-### Backend (planlagt)
-- **Framework:** FastAPI + MongoDB Atlas (M0 Free tier)
+### Backend (implementert via Vercel Serverless Functions)
+- **Plattform:** Vercel Serverless (Node.js 20, ESM)
+- **Filer:** `/api/contact.mjs` + `/api/_lib/` (config, telegram, resend, mongo)
 - **Endpoints:**
-  - POST /api/contact — Lagre + send e-post via SendGrid (kommer)
-  - GET /api/track — Logg sidevisninger m/UTM (valgfritt)
+  - POST /api/contact — Validering + honeypot → MongoDB + Telegram + Resend (parallelt)
+- **Kanaler styres av env-vars i Vercel:**
+  - Telegram: `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`
+  - E-post: `RESEND_API_KEY` + `RESEND_TO_EMAIL` + `EMAIL_ENABLED=true`
+  - Mongo: `MONGODB_URI`
 
 ### Theming Systems (to uavhengige)
 
@@ -140,6 +144,17 @@ Bygge en moderne og minimalistisk one-page nettside for tannlege Per Eivind Mår
 | `frontend/src/pages/StudentPoster.jsx` | QR-plakat for utskrift |
 | `frontend/src/hooks/use-meta-tags.js` | Dynamisk OG-tag oppdatering |
 
+### ✅ Fase 12: Kontaktskjema-backend via Vercel Serverless (15. mai 2026)
+- `/api/contact.mjs` + `/api/_lib/` (config, telegram, resend, mongo)
+- POST endpoint med validering, honeypot, og parallell varsling
+- Telegram-varsel med HTML-format + Ring/SMS-knapper i meldingen
+- Resend-integrasjon (basert på bankboks-page-mønster) med duplicate-handling
+- MongoDB Atlas-lagring med connection caching for serverless
+- `Contact.jsx` + `StudentLanding.jsx` koblet på ekte API (mocks fjernet)
+- Honeypot-felt i begge skjemaer for spam-beskyttelse
+- 17/17 lokale validerings-tester passert (`tests/test_contact_api.mjs`)
+- `vercel.json` rewrite oppdatert til å ekskludere `/api/*` fra SPA-fallback
+
 ---
 
 ## Prioritized Backlog
@@ -149,17 +164,18 @@ Bygge en moderne og minimalistisk one-page nettside for tannlege Per Eivind Mår
 - [ ] **Studentside-tema**: Per velger 1/2/3/4 i `default.json` (etter at datteren har testet på mobil)
 - [ ] **Plakat-godkjenning**: Per ser på `/student/plakat` og bekrefter
 
-### P1 — SendGrid e-post (NESTE ØKT)
-- [ ] Sett opp MongoDB Atlas Free Tier cluster (steg-for-steg klar i tråden)
-- [ ] Backend `/api/contact` endpoint med MongoDB + SendGrid
-- [ ] Hovedside Contact.jsx → backend (erstatt mock)
-- [ ] StudentLanding form → backend (erstatt mock)
-- [ ] UTM-data inkluderes i e-post Per mottar
-- [ ] Krever fra Per: SendGrid API key + verifisert avsender + mottaker-e-post
+### P1 — Klart for deploy (krever env-vars i Vercel)
+- [x] Backend-kode lagd og testet lokalt (15. mai 2026)
+- [ ] Telegram Bot opprettet av bruker (BotFather) + Group Chat-ID hentet
+- [ ] MongoDB Atlas M0 opprettet + connection string lagt i Vercel
+- [ ] Resend-konto opprettet med Per sin e-post + API-key
+- [ ] Env-vars lagt inn i Vercel Settings → Environment Variables
+- [ ] Deploy + E2E-test via produksjons-URL
 
 ### P1 — Future Enhancements
-- [ ] Sporing-arkiv i MongoDB (egne UTM-data for queryable analyser)
-- [ ] Admin panel for kontaktforespørsler
+- [ ] Tannlegeper.no DNS-verifisering hos Resend → bytte `RESEND_FROM_EMAIL`
+- [ ] Aktivere E-post-kanal når DNS er klart (`EMAIL_ENABLED=true`)
+- [ ] Telegram `/liste`-kommando i boten (hvis Per spør om historikk)
 - [ ] Timebestillingssystem
 - [ ] Tidsbegrenset student-kampanje med utløpsdato
 

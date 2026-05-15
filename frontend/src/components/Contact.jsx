@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Phone, Mail, MapPin, Send, CheckCircle } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { Phone, Mail, MapPin, Send, CheckCircle, AlertTriangle } from 'lucide-react';
 import { clinicInfo } from '../data/mockData';
 import { Card, CardContent } from './ui/card';
 import { Input } from './ui/input';
@@ -12,40 +12,67 @@ import {
   DialogHeader,
   DialogTitle,
 } from './ui/dialog';
+import { submitContact } from '../lib/contactApi';
 
 export const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    message: ''
+    message: '',
+    hp: '' // honeypot — usynlig spam-felle
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+
+  // Plukk opp UTM-parametere så vi vet hvor besøkende kom fra
+  const utm = useMemo(() => {
+    if (typeof window === 'undefined') return {};
+    const p = new URLSearchParams(window.location.search);
+    return {
+      source: p.get('utm_source') || '',
+      medium: p.get('utm_medium') || '',
+      campaign: p.get('utm_campaign') || '',
+    };
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
+    if (errorMsg) setErrorMsg('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrorMsg('');
 
-    // Mock API call - will be replaced with real backend
-    setTimeout(() => {
-      setIsSubmitting(false);
+    const result = await submitContact({
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      message: formData.message,
+      hp: formData.hp,
+      source: 'hovedside',
+      utm,
+    });
+
+    setIsSubmitting(false);
+
+    if (result.ok) {
       setShowSuccessModal(true);
-      // Vi tømmer IKKE skjemaet her, så vi kan bruke navnet i modalen
-    }, 1000);
+    } else {
+      setErrorMsg(result.error);
+    }
   };
 
   const closeModal = () => {
     setShowSuccessModal(false);
     // Tøm skjemaet ETTER at modalen lukkes
-    setFormData({ name: '', email: '', phone: '', message: '' });
+    setFormData({ name: '', email: '', phone: '', message: '', hp: '' });
   };
 
   // Hent kun fornavnet fra fullt navn
@@ -73,7 +100,19 @@ export const Contact = () => {
                 <h3 className="text-2xl font-bold text-amber-900 mb-6">
                   Send oss en melding
                 </h3>
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6" data-testid="contact-form">
+                  {/* Honeypot — usynlig for mennesker, fanger bots */}
+                  <input
+                    type="text"
+                    name="hp"
+                    value={formData.hp}
+                    onChange={handleChange}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    style={{ position: 'absolute', left: '-10000px', width: '1px', height: '1px', opacity: 0 }}
+                  />
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Navn *
@@ -137,6 +176,7 @@ export const Contact = () => {
                     type="submit"
                     disabled={isSubmitting}
                     className="w-full bg-amber-600 hover:bg-amber-700 text-white text-lg py-6"
+                    data-testid="contact-submit-btn"
                   >
                     {isSubmitting ? (
                       'Sender...'
@@ -147,6 +187,26 @@ export const Contact = () => {
                       </>
                     )}
                   </Button>
+
+                  {errorMsg && (
+                    <div
+                      role="alert"
+                      data-testid="contact-error"
+                      className="flex items-start gap-3 p-4 bg-red-50 border border-red-200 rounded-lg text-red-800"
+                    >
+                      <AlertTriangle size={20} className="flex-shrink-0 mt-0.5" />
+                      <div className="text-sm">
+                        <strong>Beklager,</strong> {errorMsg}
+                        <div className="mt-1">
+                          Du kan også ringe oss på{' '}
+                          <a href={`tel:${clinicInfo.phone.replace(/\s/g, '')}`} className="underline font-semibold">
+                            {clinicInfo.phone}
+                          </a>
+                          .
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </form>
               </CardContent>
             </Card>
