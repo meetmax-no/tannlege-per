@@ -35,10 +35,16 @@ export function formatPhone(input) {
 }
 
 function splitName(fullName) {
-  const parts = String(fullName || '').trim().split(/\s+/);
+  const parts = String(fullName || '').trim().split(/\s+/).filter(Boolean);
   if (parts.length === 0) return { first: '', last: '' };
   if (parts.length === 1) return { first: parts[0], last: '' };
-  return { first: parts[0], last: parts.slice(1).join(' ') };
+  // Splitt på SISTE mellomrom: alt før = fornavn(er), siste = etternavn.
+  // Slik at "Michael Leo Aagreen" → first="Michael Leo", last="Aagreen"
+  // og avatar-initialer blir "MA" konsekvent i alle Telegram-klienter.
+  return {
+    first: parts.slice(0, -1).join(' '),
+    last: parts[parts.length - 1],
+  };
 }
 
 function buildTextMessage(payload) {
@@ -94,9 +100,6 @@ export async function sendTelegramNotification(config, payload) {
   const e164 = toE164(payload.phone);
   if (e164) {
     const { first, last } = splitName(payload.name);
-    const tagParts = [];
-    if (payload.source) tagParts.push(payload.source);
-    const tag = tagParts.length ? ` (${tagParts.join(' · ')})` : '';
 
     // vCard med melding i NOTE-feltet (lagres når Per legger til kontakten)
     const vcardLines = [
@@ -108,17 +111,19 @@ export async function sendTelegramNotification(config, payload) {
     ];
     if (payload.email) vcardLines.push(`EMAIL:${payload.email}`);
     if (payload.message) {
-      // vCard NOTE: bytt linjeskift med \n (literal) for vCard-spec
       const note = String(payload.message).replace(/\r?\n/g, '\\n');
       vcardLines.push(`NOTE:${note}`);
     }
     vcardLines.push('END:VCARD');
 
+    // Kontaktkortet holdes rent (kun ekte for- og etternavn) slik at avatar-
+    // initialene blir konsekvente på tvers av Telegram-klienter. Kilde/UTM
+    // står allerede i tekstmeldingen over.
     await telegramRequest(config.token, 'sendContact', {
       chat_id: config.chatId,
       phone_number: e164,
       first_name: first || 'Pasient',
-      last_name: last ? `${last}${tag}` : tag.trim() || undefined,
+      last_name: last || undefined,
       vcard: vcardLines.join('\n'),
     });
   }
