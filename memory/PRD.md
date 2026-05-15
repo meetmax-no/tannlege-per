@@ -146,14 +146,23 @@ Bygge en moderne og minimalistisk one-page nettside for tannlege Per Eivind Mår
 
 ### ✅ Fase 12: Kontaktskjema-backend via Vercel Serverless (15. mai 2026)
 - `/api/contact.mjs` + `/api/_lib/` (config, telegram, resend, mongo)
-- POST endpoint med validering, honeypot, og parallell varsling
-- Telegram-varsel med HTML-format + Ring/SMS-knapper i meldingen
-- Resend-integrasjon (basert på bankboks-page-mønster) med duplicate-handling
-- MongoDB Atlas-lagring med connection caching for serverless
+- POST endpoint med validering, honeypot, og parallell varsling til alle aktive kanaler
+- Telegram-varsel med HTML-format + auto-formattering av norske telefonnumre til `+47 XX XX XX XX` (Telegram-mobilappen auto-detekterer da nummeret som klikkbart for ringing/SMS)
+- Resend-integrasjon (basert på bankboks-page-mønster) — klar, men aktiveres først når DNS er verifisert
+- MongoDB Atlas-lagring med connection caching for serverless — klar, ikke aktivert ennå
 - `Contact.jsx` + `StudentLanding.jsx` koblet på ekte API (mocks fjernet)
 - Honeypot-felt i begge skjemaer for spam-beskyttelse
-- 17/17 lokale validerings-tester passert (`tests/test_contact_api.mjs`)
+- Feilmelding-UI i hovedside-skjema med fallback til telefonnummer
+- 20/20 + 8/8 lokale tester passert (`tests/test_contact_api.mjs`, `tests/test_phone_format.mjs`)
 - `vercel.json` rewrite oppdatert til å ekskludere `/api/*` fra SPA-fallback
+- **LIVE i produksjon** (15. mai 2026) — Telegram-varsler virker både fra `/` og `/student`
+
+### ✅ Fase 13: Eksplisitt env-var-styring (15. mai 2026)
+- Fjernet skjult fallback-logikk i `config.mjs` — alle kanaler krever nå eksplisitt `*_ENABLED=true`
+- Tre uavhengige toggles: `TELEGRAM_ENABLED`, `EMAIL_ENABLED`, `MONGODB_ENABLED`
+- Kanal aktiveres KUN hvis credentials finnes OG `*_ENABLED=true`
+- Ryddet `default.json` — fjernet ikke-funksjonell `notifications`-seksjon
+- Bedre feildiagnose: 502-svar inkluderer per-kanal-detaljer i `channels`-feltet
 
 ---
 
@@ -166,11 +175,11 @@ Bygge en moderne og minimalistisk one-page nettside for tannlege Per Eivind Mår
 
 ### P1 — Klart for deploy (krever env-vars i Vercel)
 - [x] Backend-kode lagd og testet lokalt (15. mai 2026)
-- [ ] Telegram Bot opprettet av bruker (BotFather) + Group Chat-ID hentet
-- [ ] MongoDB Atlas M0 opprettet + connection string lagt i Vercel
-- [ ] Resend-konto opprettet med Per sin e-post + API-key
-- [ ] Env-vars lagt inn i Vercel Settings → Environment Variables
-- [ ] Deploy + E2E-test via produksjons-URL
+- [x] Telegram Bot opprettet (BotFather) + Group Chat-ID `-5218791898` hentet (15. mai 2026)
+- [x] Env-vars `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `TELEGRAM_ENABLED=true` satt i Vercel (15. mai 2026)
+- [x] Deploy + E2E-test mot produksjon — Telegram-varsel mottatt på 1 sek (15. mai 2026)
+- [ ] MongoDB Atlas M0 opprettet + connection string + `MONGODB_ENABLED=true` (utestående)
+- [ ] Resend-konto (egen for Per) + API-key + `EMAIL_ENABLED=true` (utestående, venter på Resend-konto)
 
 ### P1 — Future Enhancements
 - [ ] Tannlegeper.no DNS-verifisering hos Resend → bytte `RESEND_FROM_EMAIL`
@@ -190,8 +199,23 @@ Bygge en moderne og minimalistisk one-page nettside for tannlege Per Eivind Mår
 ---
 
 ## Next Action Items
-1. **E-post til Per** med lenker (utkast klar i conversation)
-2. **Vente på tilbakemelding** + valg av farge/student-tema
-3. **MongoDB Atlas-oppsett** (5–7 min jobb for Per)
-4. **SendGrid-integrasjon** når API-key er tilgjengelig
-5. **Deploy & dashboard-aktivering**: Vercel Analytics blir synlig når events kommer inn (1–24t etter første)
+1. **MongoDB Atlas-oppsett** — gratis M0-cluster, legg inn `MONGODB_URI` + `MONGODB_ENABLED=true` i Vercel for permanent lagring av henvendelser
+2. **Resend-konto for Per** — egen konto med Per sin e-post, gir `RESEND_API_KEY` + `RESEND_TO_EMAIL` (foreløpig `onboarding@resend.dev` til DNS er klart)
+3. **Tannlegeper.no DNS** — når Per gir tilgang: verifiser domene hos Resend, bytt `RESEND_FROM_EMAIL` til `kontakt@tannlegeper.no`, sett `EMAIL_ENABLED=true`
+4. **Vente på tilbakemelding** fra Per + valg av farge/student-tema
+5. **(Optional)** Telegram `/liste`-kommando hvis Per spør om historikk-eksport
+
+---
+
+## Current Production Status (15. mai 2026)
+
+| Komponent | Status |
+|---|---|
+| Frontend on Vercel | 🟢 LIVE |
+| Telegram-varsler | 🟢 AKTIV — `TELEGRAM_ENABLED=true`, gruppe `-5218791898` |
+| MongoDB-lagring | ⚪ KLAR I KODE — env-vars utestående |
+| E-post (Resend) | ⚪ KLAR I KODE — Resend-konto + DNS utestående |
+| Spam-beskyttelse | 🟢 Honeypot aktiv på begge skjemaer |
+| Vercel Analytics | 🟢 AKTIV |
+
+**E2E-flow bekreftet:** Kontaktskjema (`/` og `/student`) → POST `/api/contact` → Telegram-melding i klinikkgruppen innen 1 sek, med navn/telefon/melding/UTM og klikkbart `+47 XX XX XX XX`-nummer.
