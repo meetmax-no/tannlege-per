@@ -134,18 +134,23 @@ export default async function handler(req, res) {
 
   await Promise.all(tasks);
 
-  // Hvis ingen kanaler funket OG mongo feilet — gi 502 så frontend kan vise feil
-  const anySuccess =
-    channels.mongo?.ok ||
-    channels.telegram?.ok ||
-    channels.email?.ok ||
-    channels.mongo?.skipped && channels.telegram?.skipped && channels.email?.skipped;
+  const enabled = {
+    mongo: cfg.mongo.enabled,
+    telegram: cfg.telegram.enabled,
+    email: cfg.email.enabled,
+  };
+  const anyEnabled = enabled.mongo || enabled.telegram || enabled.email;
+  const anySuccess = !!(channels.mongo?.ok || channels.telegram?.ok || channels.email?.ok);
 
-  if (!anySuccess) {
+  // Hvis ingen kanaler er aktivert i det hele tatt → returner OK (ingen feil i å ikke ha noen aktiv kanal)
+  // Hvis minst én er aktivert, men ingen lyktes → 502
+  if (anyEnabled && !anySuccess) {
+    console.error('[contact] all enabled channels failed:', JSON.stringify(channels));
     return res.status(502).json({
       ok: false,
       error: 'Kunne ikke levere henvendelsen. Prøv igjen eller ring oss.',
       code: 'ALL_CHANNELS_FAILED',
+      channels, // hjelper feilsøking — vises ikke i frontend men kan ses i nettverksfanen
     });
   }
 
