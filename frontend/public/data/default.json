@@ -3,22 +3,8 @@
     "client": "Per Måreid",
     "createdAt": "2026-05-01",
     "createdBy": "Ko | Do · Consult",
-    "notes": "colorScheme: 0 = preview (knapp i header), 1 = brun, 2 = lysblå, 3 = lysgrønn. studentColorScheme: 0 = vis 3-farger-velger på student-siden, 1/2/3 = lås til en bestemt farge. notifications: viser status for hver kanal (kun til informasjon — faktisk på/av styres av env-vars i Vercel)."
+    "notes": "colorScheme: 0 = preview (knapp i header), 1 = brun, 2 = lysblå, 3 = lysgrønn. studentColorScheme: 0 = vis 3-farger-velger på student-siden, 1/2/3 = lås til en bestemt farge"
   },
   "colorScheme": 0,
-  "studentColorScheme": 0,
-  "notifications": {
-    "telegram": {
-      "label": "Telegram-varsel til klinikkgruppen",
-      "envHint": "Aktiveres når TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID er satt i Vercel"
-    },
-    "email": {
-      "label": "E-postvarsel via Resend",
-      "envHint": "Aktiveres når RESEND_API_KEY + RESEND_TO_EMAIL er satt + EMAIL_ENABLED=true"
-    },
-    "mongodb": {
-      "label": "Lagring av henvendelser",
-      "envHint": "Aktiveres når MONGODB_URI er satt i Vercel"
-    }
-  }
+  "studentColorScheme": 0
 }
