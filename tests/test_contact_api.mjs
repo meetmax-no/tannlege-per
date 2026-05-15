@@ -16,34 +16,50 @@ delete process.env.TELEGRAM_BOT_TOKEN;
 delete process.env.TELEGRAM_CHAT_ID;
 delete process.env.RESEND_API_KEY;
 delete process.env.MONGODB_URI;
+delete process.env.TELEGRAM_ENABLED;
+delete process.env.EMAIL_ENABLED;
+delete process.env.MONGODB_ENABLED;
 
 let cfg = getNotificationConfig();
-expect('telegram disabled uten token', cfg.telegram.enabled === false);
-expect('email disabled uten api key', cfg.email.enabled === false);
-expect('mongo disabled uten uri', cfg.mongo.enabled === false);
+expect('telegram disabled uten credentials', cfg.telegram.enabled === false);
+expect('email disabled uten credentials', cfg.email.enabled === false);
+expect('mongo disabled uten credentials', cfg.mongo.enabled === false);
 
+// Bare credentials uten ENABLED=true → fortsatt av
 process.env.TELEGRAM_BOT_TOKEN = 'test';
 process.env.TELEGRAM_CHAT_ID = '-100';
 cfg = getNotificationConfig();
-expect('telegram enabled når token+chatId satt', cfg.telegram.enabled === true);
+expect('telegram disabled selv med credentials hvis ENABLED ikke satt', cfg.telegram.enabled === false);
+
+process.env.TELEGRAM_ENABLED = 'true';
+cfg = getNotificationConfig();
+expect('telegram enabled når ENABLED=true + credentials', cfg.telegram.enabled === true);
 
 process.env.TELEGRAM_ENABLED = 'false';
 cfg = getNotificationConfig();
-expect('telegram disabled når TELEGRAM_ENABLED=false', cfg.telegram.enabled === false);
+expect('telegram disabled når ENABLED=false', cfg.telegram.enabled === false);
 
-process.env.TELEGRAM_ENABLED = 'true';
+process.env.TELEGRAM_ENABLED = 'TRUE'; // case insensitive
+cfg = getNotificationConfig();
+expect('telegram enabled case-insensitive (TRUE)', cfg.telegram.enabled === true);
+
+// ENABLED=true men credentials mangler → fortsatt av
+process.env.EMAIL_ENABLED = 'true';
+cfg = getNotificationConfig();
+expect('email disabled hvis ENABLED=true men api-key mangler', cfg.email.enabled === false);
+
 process.env.RESEND_API_KEY = 're_xyz';
 process.env.RESEND_TO_EMAIL = 'per@test.no';
 cfg = getNotificationConfig();
-expect('email disabled by default selv med key', cfg.email.enabled === false);
-
-process.env.EMAIL_ENABLED = 'true';
-cfg = getNotificationConfig();
-expect('email enabled når EMAIL_ENABLED=true', cfg.email.enabled === true);
+expect('email enabled når ENABLED=true + credentials', cfg.email.enabled === true);
 
 process.env.MONGODB_URI = 'mongodb+srv://test';
 cfg = getNotificationConfig();
-expect('mongo enabled når URI satt', cfg.mongo.enabled === true);
+expect('mongo disabled selv med URI hvis ENABLED ikke satt', cfg.mongo.enabled === false);
+
+process.env.MONGODB_ENABLED = 'true';
+cfg = getNotificationConfig();
+expect('mongo enabled når ENABLED=true + URI', cfg.mongo.enabled === true);
 expect('mongo default db = tannlege-per', cfg.mongo.db === 'tannlege-per');
 
 // ---------- Handler validation ----------

@@ -1,11 +1,11 @@
 // Konfigurasjon — leser env-vars og avgjør hvilke kanaler som er aktive.
-// Prinsipp: tilstedeværelse av credentials = kanalen er på.
-// Eksplisitt overstyring via *_ENABLED=false skrur av selv om credentials finnes.
+// Prinsipp: HVER kanal må eksplisitt aktiveres via *_ENABLED=true.
+// Mangler den, eller er den noe annet enn "true", er kanalen AV — uavhengig av
+// om credentials finnes. Ingen skjulte fallbacks.
 
-function readEnabled(name, defaultValue = true) {
+function isTrue(name) {
   const v = process.env[name];
-  if (v === undefined || v === '') return defaultValue;
-  return v.toLowerCase() !== 'false' && v !== '0';
+  return typeof v === 'string' && v.trim().toLowerCase() === 'true';
 }
 
 export function getNotificationConfig() {
@@ -19,18 +19,18 @@ export function getNotificationConfig() {
 
   return {
     telegram: {
-      enabled: !!telegramToken && !!telegramChatId && readEnabled('TELEGRAM_ENABLED'),
+      enabled: isTrue('TELEGRAM_ENABLED') && !!telegramToken && !!telegramChatId,
       token: telegramToken,
       chatId: telegramChatId,
     },
     email: {
-      enabled: !!resendKey && !!resendTo && readEnabled('EMAIL_ENABLED', false),
+      enabled: isTrue('EMAIL_ENABLED') && !!resendKey && !!resendTo,
       apiKey: resendKey,
       from: resendFrom,
       to: resendTo,
     },
     mongo: {
-      enabled: !!mongoUri && readEnabled('MONGODB_ENABLED'),
+      enabled: isTrue('MONGODB_ENABLED') && !!mongoUri,
       uri: mongoUri,
       db: mongoDb,
       collection: 'contacts',
